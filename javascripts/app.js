@@ -37,7 +37,7 @@ var App = function(){
 
         t.describe("desc",.8,"#blog-desc");
 
-        t.write("desc:Do have faith in what you're doing.");
+        t.write("desc:If you want do, then do.");
     }
 
 	return {
