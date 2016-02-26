@@ -94,6 +94,56 @@ footer {
   footer * {
     color: #797979; }
 
+#blog-desc{
+    width: 100%;
+    border: 2px solid #eee;
+    margin-top: 40px;
+  }
+  #main{
+    width: 100%;
+  max-width: 1170px;
+  margin: 0px auto 20px;
+  border-radius: 10px;
+  border: 0px solid #eee;
+  position: relative;
+  *zoom: 1;
+  
+  }
+  #left {
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  float: left;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  position: fixed;
+  *zoom: 1;
+  background: -webkit-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -moz-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -ms-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+  #right {
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  margin-left: 970px;
+  float: left;
+  position: fixed;
+  *zoom: 1;
+  background: -webkit-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -moz-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: -ms-linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.4),rgba(255,255,255,0.6),rgba(255,255,255,0.8));
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
 #container {
   width: 100%;
   max-width: 768px;
