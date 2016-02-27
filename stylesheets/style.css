@@ -23,14 +23,17 @@ body {
   margin: 0; 
 }
 
-#go-back-home {
-  margin: 40px 0 0; 
+.go-back-home {
+  margin: 20px 0 0; 
 }
-#go-back-home img{
+.go-back-home img{
   border: none;
 }
+#head-pic img{
+  border-radius:50%;
+} 
 
-#go-back-home:hover {
+.go-back-home:hover {
   background-image: none; 
 }
 
