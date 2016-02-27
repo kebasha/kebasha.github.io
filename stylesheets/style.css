@@ -99,7 +99,7 @@ footer {
 
 #blog-desc{
     width: 100%;
-    border: 2px solid #eee;
+    border: 0px solid #eee;
     margin-top: 40px;
   }
   #main{
@@ -128,6 +128,33 @@ footer {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+
+  #left ul{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+  }
+  #left ul li{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  ul.titles li a {
+  text-shadow: 0 0 1px #ccc;
+    -webkit-transition: all .25s ease-out;
+       -moz-transition: all .25s ease-out;
+        -ms-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+}
+
+ul.titles li a:hover{
+    background: none;
+    text-shadow: 0 0 2px #ccc;
+    color: rgba(255,0,0,0.8);
+}
 
   #right {
   width: 100%;
