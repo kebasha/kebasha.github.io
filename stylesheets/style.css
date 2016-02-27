@@ -12,6 +12,17 @@ html, body {
   font-family: "YaHei Consolas Hybrid", "Consolas", "微软雅黑", "Segoe UI", Arial, "Times New Roman";
 }
 
+body:before{
+  content: '';
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+}
+
 body {
   background: #f9f9f9 url(../images/background.png) repeat;
   background-attachment: fixed;
@@ -23,17 +34,7 @@ body {
   margin: 0; 
 }
 
-body:before{
-  content: '';
-  position: fixed;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #f9f9f9 url(../images/background.png) repeat;
-  background-size: cover;
-}
+
 
 .go-back-home {
   margin: 20px 0 0; 
