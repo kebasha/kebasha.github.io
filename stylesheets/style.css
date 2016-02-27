@@ -20,12 +20,12 @@ body:before{
   right: 0;
   bottom: 0;
   left: 0;
+  background: #f9f9f9 url(../images/background.png) repeat;
   background-size: cover;
 }
 
 body {
-  background: #f9f9f9 url(../images/background.png) repeat;
-  background-attachment: fixed;
+  
   color: #303030;
   font-weight: 400;
   font-size: 13px;
