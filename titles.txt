@@ -1,5 +1,1 @@
-Java
-Php
-Oracle
-Mysql
-Hadoop
+Java,Php,Oracle,Mysql,大数据
