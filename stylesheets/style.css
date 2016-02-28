@@ -432,6 +432,22 @@ ul.posts, ul.posts li {
 ul.posts li {
   margin-bottom: 20px; }
 
+.postsli{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.postsli a{
+  text-shadow: 0 0 1px #ccc;
+    -webkit-transition: all .25s ease-out;
+       -moz-transition: all .25s ease-out;
+        -ms-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+}
+
 ul.posts li a {
   text-shadow: 0 0 1px #ccc;
     -webkit-transition: all .25s ease-out;
@@ -443,6 +459,12 @@ ul.posts li a {
 
 ul.posts li a:hover{
     background: none;
+    text-shadow: 0 0 2px #ccc;
+    color: rgba(255,0,0,0.8);
+}
+
+.postsli a:hover{
+  background: none;
     text-shadow: 0 0 2px #ccc;
     color: rgba(255,0,0,0.8);
 }
@@ -459,6 +481,20 @@ ul.posts .datetime {
   color: #999;
   font-size: 10px;
   text-align: right; }
+
+.postsli .datetime{
+  display: inline-block;
+  vertical-align: baseline;
+  zoom: 1;
+  *display: inline;
+  *vertical-align: auto;
+  width: 130px;
+  text-transform: uppercase;
+  float: right;
+  color: #999;
+  font-size: 10px;
+  text-align: right;
+}
 
 section.post {
   margin: 0;
