@@ -3,7 +3,7 @@ $(function(){
         url: 'titles.txt',
         dataType: 'text',
         success: function(data) {
-        	var dataStr = data.replace(/.+/g,',');
+        	var dataStr = data.replace(/[\r\n]/g,',');
         	alert(dataStr);
             var arr = dataStr.split(',');
             var liView = "";
