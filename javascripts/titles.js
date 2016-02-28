@@ -7,7 +7,7 @@ $(function(){
             var arr = data.split(',');
             var liView = "";
             for(var i=0;i<arr.length;i++){
-                liView += '<li><a href="javascript:void(0);" onclick="bloglist('+"'"+arr[i]+"'"+')">'+arr[i]+'</a></li>';
+                liView += '<li><a href="javascript:void(0);" onclick="bloglist('+"'"+arr[i]+"'"+');">'+arr[i]+'</a></li>';
             }
             $("#titles").html(liView);
         }
