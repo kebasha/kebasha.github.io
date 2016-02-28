@@ -25,7 +25,7 @@ function bloglist(title){
             for(var i=0;i<arr.length;i++){
                 liView += '<li><a href="/shell-string-operations/">'+arr[i]+'</a></li>';
             }
-            $("#contentPosts").val(liView);
+            $("#contentPosts").html(liView);
         }
     });
 }
