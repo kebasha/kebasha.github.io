@@ -19,20 +19,9 @@
 <script src='/javascripts/theater.js' type='text/javascript'></script>
 
 <script src='/javascripts/app.js' type='text/javascript'></script>
+<script src='/javascripts/titles.js' type='text/javascript'></script>
 <script>
     var duoshuoQuery = {short_name:"Kbasha"};
-    $.ajax({
-        url: 'titles.txt',
-        dataType: 'text',
-        success: function(data) {
-            var arr = data.split(',');
-            var liView = "";
-            for(var i=0;i<arr.length;i++){
-                liView += '<li><a href="#">'+arr[i]+'</a></li>';
-            }
-            $("#titles").html(liView);
-        }
-    });
 </script>
 
     </head>
