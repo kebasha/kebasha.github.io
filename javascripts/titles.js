@@ -4,7 +4,6 @@ $(function(){
         dataType: 'text',
         success: function(data) {
         	var dataStr = data.replace(/[\r\n]/g,',');
-        	alert(dataStr);
             var arr = dataStr.split(',');
             var liView = "";
             for(var i=0;i<arr.length;i++){
@@ -20,7 +19,7 @@ function bloglist(title){
         url: 'titles-'+title+'.txt',
         dataType: 'text',
         success: function(data) {
-        	data = data.replace(/.+/g,',');
+        	data = data.replace(/[\r\n]/g,',');
             var arr = data.split(',');
             var liView = "";
             for(var i=0;i<arr.length;i++){
