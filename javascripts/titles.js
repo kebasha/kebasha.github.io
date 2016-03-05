@@ -14,7 +14,7 @@ $(function(){
     });
 });
 
-var pageSize = 1;
+var pageSize = 5;
 function bloglist(title, number){
     if(number < 1){
         return;
@@ -48,67 +48,67 @@ function bloglist(title, number){
                         if(i==number){
                             pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                         }else{
-                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
-                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
                 }else if(number == countPage){
-                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
                         if(i==number){
                             pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                         }else{
-                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
                     pageView += '<a href="javascript:void(0);" class="disabled">&gt; </a>';
                 }else{
-                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
                         if(i==number){
                             pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                         }else{
-                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
-                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
                 }
             }else{
                 if(number == 1){
                     pageView += '<a href="javascript:void(0);" class="disabled">&lt; </a>';
                     pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
-                    pageView += '<a href="javascript:void(0);">'+(number+1)+'</a>';
-                    pageView += '<a href="javascript:void(0);">'+(number+2)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">'+(number+1)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+2)+"'"+')">'+(number+2)+'</a>';
                     pageView += '<a href="javascript:void(0);">...</a>';
-                    pageView += '<a href="javascript:void(0);">'+countPage+'</a>';
-                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+countPage+"'"+')">'+countPage+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
                 }else if(number == countPage){
-                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     pageView += '<a href="javascript:void(0);" class="current">1</a>';
                     pageView += '<a href="javascript:void(0);">...</a>';
-                    pageView += '<a href="javascript:void(0);">'+(countPage-2)+'</a>';
-                    pageView += '<a href="javascript:void(0);">'+(countPage-1)+'</a>';
-                    pageView += '<a href="javascript:void(0);">'+countPage+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(countPage-2)+"'"+')">'+(countPage-2)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(countPage-1)+"'"+')">'+(countPage-1)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+countPage+"'"+')">'+countPage+'</a>';
                     pageView += '<a href="javascript:void(0);" class="disabled">&gt; </a>';
                 }else{
-                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     if(number < 4){
                         for(var i=1;i<6;i++){
                             if(i==number){
                                 pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                             }else{
-                                pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                                pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                             }
                         }
                         pageView += '<a href="javascript:void(0);">...</a>';
                     }
                     if(number > 4 && number < countPage - 3){
                         pageView += '<a href="javascript:void(0);">...</a>';
-                        pageView += '<a href="javascript:void(0);">'+(number-2)+'</a>';
-                        pageView += '<a href="javascript:void(0);">'+(number-1)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-2)+"'"+')">'+(number-2)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">'+(number-1)+'</a>';
                         pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
-                        pageView += '<a href="javascript:void(0);">'+(number+1)+'</a>';
-                        pageView += '<a href="javascript:void(0);">'+(number+2)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">'+(number+1)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+2)+"'"+')">'+(number+2)+'</a>';
                         pageView += '<a href="javascript:void(0);">...</a>';
                     }
                     if(number > countPage - 3){
@@ -117,11 +117,11 @@ function bloglist(title, number){
                             if(i==number){
                                 pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                             }else{
-                                pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                                pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                             }
                         }
                     }
-                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
                 }
             }
             
