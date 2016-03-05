@@ -28,6 +28,9 @@ function bloglist(title, number){
             var liView = "";
             var start = pageSize * (number-1);
             var end = pageSize * number;
+            if(start > arr.length){
+                return;
+            }
             for(var i=0;i<arr.length;i++){
                 if(i > start-1 && i <= end-1){
             	    var blogArr = arr[i].split('|');
