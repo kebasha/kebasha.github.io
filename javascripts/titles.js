@@ -43,10 +43,10 @@ function bloglist(title, number){
 }
 
 function loadPage(title, number){
-    $("#pagingLeft").live('click',function(){
+    $("a[name='pagingLeft']").click(function(){
         bloglist(title, number-1);
     });
-    $("#pagingLeft").live('click',function(){
+    $("a[name='pagingRight']").click(function(){
         bloglist(title, number+1);
     });
 }
