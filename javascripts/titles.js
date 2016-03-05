@@ -24,7 +24,7 @@ function bloglist(title){
             var liView = "";
             for(var i=0;i<arr.length;i++){
             	var blogArr = arr[i].split('|');
-                liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[1]+'">'+blogArr[1]+'</small><a href="/shell-string-operations/">'+blogArr[0]+'</a></li>';
+                liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[2]+'">'+blogArr[2]+'</small><a href="/'+title+'/index'+blogArr[0]+'.html">'+blogArr[1]+'</a></li>';
             }
             $("#contentPosts").html(liView);
         }
