@@ -14,7 +14,7 @@ $(function(){
     });
 });
 
-var pageSize = 5;
+var pageSize = 1;
 function bloglist(title, number){
     if(number < 1){
         return;
@@ -43,30 +43,86 @@ function bloglist(title, number){
             var pageView = "";
             if(countPage <= 10){
                 if(number == 1){
-                    pageView += '<a class="disabled">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" class="disabled">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
                         if(i==number){
-                            pageView += '<a class="current">'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                         }else{
-                            pageView += '<a>'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
                         }
                     }
-                    pageView += '<a>&gt; </a>';
+                    pageView += '<a href="javascript:void(0);">&gt; </a>';
                 }else if(number == countPage){
-                    pageView += '<a>&lt; </a>';
+                    pageView += '<a href="javascript:void(0);">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
                         if(i==number){
-                            pageView += '<a class="current">'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                         }else{
-                            pageView += '<a>'+i+'</a>';
+                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
                         }
                     }
-                    pageView += '<a class="disabled">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" class="disabled">&gt; </a>';
                 }else{
-
+                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    for(var i=1;i<=countPage;i++){
+                        if(i==number){
+                            pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
+                        }else{
+                            pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                        }
+                    }
+                    pageView += '<a href="javascript:void(0);">&gt; </a>';
                 }
-            }else if(number == countPage){
-                
+            }else{
+                if(number == 1){
+                    pageView += '<a href="javascript:void(0);" class="disabled">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
+                    pageView += '<a href="javascript:void(0);">'+(number+1)+'</a>';
+                    pageView += '<a href="javascript:void(0);">'+(number+2)+'</a>';
+                    pageView += '<a href="javascript:void(0);">...</a>';
+                    pageView += '<a href="javascript:void(0);">'+countPage+'</a>';
+                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                }else if(number == countPage){
+                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    pageView += '<a href="javascript:void(0);" class="current">1</a>';
+                    pageView += '<a href="javascript:void(0);">...</a>';
+                    pageView += '<a href="javascript:void(0);">'+(countPage-2)+'</a>';
+                    pageView += '<a href="javascript:void(0);">'+(countPage-1)+'</a>';
+                    pageView += '<a href="javascript:void(0);">'+countPage+'</a>';
+                    pageView += '<a href="javascript:void(0);" class="disabled">&gt; </a>';
+                }else{
+                    pageView += '<a href="javascript:void(0);">&lt; </a>';
+                    if(number < 4){
+                        for(var i=1;i<6;i++){
+                            if(i==number){
+                                pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
+                            }else{
+                                pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                            }
+                        }
+                        pageView += '<a href="javascript:void(0);">...</a>';
+                    }
+                    if(number > 4 && number < countPage - 3){
+                        pageView += '<a href="javascript:void(0);">...</a>';
+                        pageView += '<a href="javascript:void(0);">'+(number-2)+'</a>';
+                        pageView += '<a href="javascript:void(0);">'+(number-1)+'</a>';
+                        pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
+                        pageView += '<a href="javascript:void(0);">'+(number+1)+'</a>';
+                        pageView += '<a href="javascript:void(0);">'+(number+2)+'</a>';
+                        pageView += '<a href="javascript:void(0);">...</a>';
+                    }
+                    if(number > countPage - 3){
+                        pageView += '<a href="javascript:void(0);">...</a>';
+                        for(var i=1;i<6;i++){
+                            if(i==number){
+                                pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
+                            }else{
+                                pageView += '<a href="javascript:void(0);">'+i+'</a>';
+                            }
+                        }
+                    }
+                    pageView += '<a href="javascript:void(0);">&gt; </a>';
+                }
             }
             
             $("#quotes").html(pageView);
