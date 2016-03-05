@@ -47,7 +47,7 @@ function loadPage(title, number){
         alert('11111');
         bloglist(title, number-1);
     });
-    $("a[name='pagingRight']").live('click',function(){
+    $("a[name='pagingRight']").on('click',function(){
         alert('2222');
         bloglist(title, number+1);
     });
