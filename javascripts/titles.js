@@ -39,10 +39,9 @@ function bloglist(title, number){
             }
             $("#contentPosts").html(liView);
             var pageView = 
-            '<div class="quotes">'+
         '<a class="disabled">&lt; </a><a class="current">1</a><a href="#?page=2">2</a><a href="#?page=3">3</a><a href="#?page=4">4</a><a href="#?page=5">5</a>...<a href="#?page=199">199</a><a href="#?page=200">200</a><a href="#?page=2">'+
-        '&gt; </a></div>';
-            $("#content").append(pageView);
+        '&gt; </a>';
+            $("#quotes").html(pageView);
         }
     });
 }
