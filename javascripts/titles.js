@@ -44,14 +44,9 @@ function bloglist(title, number){
 
 function loadPage(title, number){
     alert('000');
-    $("a[name='pagingLeft']").click(function(){
-        alert('11111');
-        bloglist(title, number-1);
-    });
-    $("a[name='pagingRight']").on('click',function(){
-        alert('2222');
-        bloglist(title, number+1);
-    });
+    $("#pagingLeft").html('<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"',"+');">‹</a>');
+    $("#pagingRight").html('<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+');">‹</a>');
+    
 }
 
 function loadDocument(title, index){
