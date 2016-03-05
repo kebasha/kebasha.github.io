@@ -113,7 +113,7 @@ function bloglist(title, number){
                     }
                     if(number > countPage - 4){
                         pageView += '<a href="javascript:void(0);">...</a>';
-                        for(var i=countPage-4;i<countPage;i++){
+                        for(var i=countPage-3;i<=countPage;i++){
                             if(i==number){
                                 pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                             }else{
