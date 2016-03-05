@@ -29,7 +29,7 @@ function bloglist(title, number){
             var start = pageSize * (number-1);
             var end = pageSize * number;
             for(var i=0;i<arr.length;i++){
-                if(i > start || i <= end){
+                if(i > start && i <= end){
             	    var blogArr = arr[i].split('|');
                     liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[2]+'">'+blogArr[2]+'</small><a href="/'+title+'/index'+blogArr[0]+'.html">'+blogArr[1]+'</a></li>';
                 }
