@@ -133,16 +133,7 @@
 <p><strong><code>red title</code></strong></p>
 
 <p>下面是显示代码样式。如：</p>
-<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?php</span>
 
-    <span class="k">function</span> <span class="nf">__autoload</span><span class="p">(</span><span class="nv">$className</span><span class="p">){</span>
-        <span class="k">require_once</span> <span class="nv">$className</span><span class="o">.</span><span class="s2">&quot;.class.php&quot;</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">();</span>
-
-<span class="cp">?&gt;</span><span class="x"></span>
-</code></pre></div>
 
     <pre><code class="php">
         
@@ -172,14 +163,18 @@
         
 
     <!DOCTYPE html>
-    <html>
-    <head>
-        <title></title>
-    </head>
+    <title>Title</title>
+
+    <style>body {width: 500px;}</style>
+
+    <script type="application/javascript">
+      function $init() {return true;}
+    </script>
+
     <body>
-    
+      <p checked class="title" id='title'>Title</p>
+      <!-- here goes the rest of the page -->
     </body>
-    </html>
 
 
     </code></pre>
