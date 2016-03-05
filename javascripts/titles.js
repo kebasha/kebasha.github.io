@@ -14,7 +14,7 @@ $(function(){
     });
 });
 
-var pageSize = 5;
+var pageSize = 1;
 function bloglist(title, number){
     if(number < 1){
         return;
