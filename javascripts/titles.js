@@ -51,7 +51,7 @@ function bloglist(title, number){
                             pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
                 }else if(number == countPage){
                     pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
@@ -71,17 +71,17 @@ function bloglist(title, number){
                             pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
                 }
             }else{
                 if(number == 1){
                     pageView += '<a href="javascript:void(0);" class="disabled">&lt; </a>';
                     pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">'+(number+1)+'</a>';
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+2)+"'"+')">'+(number+2)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">'+(parseInt(number)+1)+'</a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+2)+"'"+')">'+(parseInt(number)+2)+'</a>';
                     pageView += '<a href="javascript:void(0);">...</a>';
                     pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+countPage+"'"+')">'+countPage+'</a>';
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
                 }else if(number == countPage){
                     pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     pageView += '<a href="javascript:void(0);" class="current">1</a>';
@@ -107,8 +107,8 @@ function bloglist(title, number){
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-2)+"'"+')">'+(number-2)+'</a>';
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">'+(number-1)+'</a>';
                         pageView += '<a href="javascript:void(0);" class="current">'+number+'</a>';
-                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">'+(number+1)+'</a>';
-                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+2)+"'"+')">'+(number+2)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">'+(parseInt(number)+1)+'</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+2)+"'"+')">'+(parseInt(number)+2)+'</a>';
                         pageView += '<a href="javascript:void(0);">...</a>';
                     }
                     if(number > countPage - 3){
@@ -121,7 +121,7 @@ function bloglist(title, number){
                             }
                         }
                     }
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">&gt; </a>';
+                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
                 }
             }
             
