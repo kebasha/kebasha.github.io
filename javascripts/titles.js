@@ -40,18 +40,19 @@ function bloglist(title, number){
 }
 
 function loadPage(title, number){
-    var view = "";
-    view += '<div class="left">';
-    view += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">';
-    view += '‹';
-    view += '</a>';
-    view += '</div>';
-    view += '<div class="right">';
-    view += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">';
-    view += '›';
-    view += '</a>';
-    view += '</div>';
-    $("#paging").html(view);
+    var pageView = "";
+    pageView += '<div class="left">';
+    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">';
+    pageView += '‹';
+    pageView += '</a>';
+    pageView += '</div>';
+    pageView += '<div class="right">';
+    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">';
+    pageView += '›';
+    pageView += '</a>';
+    pageView += '</div>';
+    alert(pageView);
+    $("#paging").html(pageView);
 }
 
 function loadDocument(title, index){
