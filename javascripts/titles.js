@@ -23,7 +23,8 @@ function bloglist(title){
             var arr = data.split(',');
             var liView = "";
             for(var i=0;i<arr.length;i++){
-                liView += '<li class="postsli"><a href="/shell-string-operations/">'+arr[i]+'</a></li>';
+            	var blogArr = arr[i].split('|');
+                liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[1]+'">'+blogArr[1]+'</small><a href="/shell-string-operations/">'+blogArr[0]+'</a></li>';
             }
             $("#contentPosts").html(liView);
         }
