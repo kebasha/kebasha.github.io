@@ -113,11 +113,11 @@ function bloglist(title, number){
                     }
                     if(number > countPage - 4){
                         pageView += '<a href="javascript:void(0);">...</a>';
-                        for(var i=0;i<4;i++){
+                        for(var i=countPage-3;i<4;i++){
                             if(i==number){
-                                pageView += '<a href="javascript:void(0);" class="current">'+(parseInt(number)+i)+'</a>';
+                                pageView += '<a href="javascript:void(0);" class="current">'+i+'</a>';
                             }else{
-                                pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+i)+"'"+')">'+(parseInt(number)+i)+'</a>';
+                                pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                             }
                         }
                     }
