@@ -26,8 +26,8 @@ function bloglist(title, number){
         	data = data.replace(/[\r\n]/g,',');
             var arr = data.split(',');
             var liView = "";
-            var start = pageSize * (number-1);
-            var end = pageSize * number;
+            var start = pageSize * (parseInt(number)-1);
+            var end = pageSize * parseInt(number);
             if(start > arr.length){
                 return;
             }
@@ -101,8 +101,10 @@ function bloglist(title, number){
                             }
                         }
                         pageView += '<a href="javascript:void(0);">...</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+countPage+"'"+')">'+countPage+'</a>';
                     }
                     if(number >= 4 && number <= countPage - 4){
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+1+"'"+')">'+1+'</a>';
                         pageView += '<a href="javascript:void(0);">...</a>';
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-2)+"'"+')">'+(number-2)+'</a>';
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">'+(number-1)+'</a>';
@@ -110,8 +112,10 @@ function bloglist(title, number){
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">'+(parseInt(number)+1)+'</a>';
                         pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+2)+"'"+')">'+(parseInt(number)+2)+'</a>';
                         pageView += '<a href="javascript:void(0);">...</a>';
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+countPage+"'"+')">'+countPage+'</a>';
                     }
                     if(number > countPage - 4){
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+1+"'"+')">'+1+'</a>';
                         pageView += '<a href="javascript:void(0);">...</a>';
                         for(var i=countPage-3;i<=countPage;i++){
                             if(i==number){
