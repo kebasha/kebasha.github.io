@@ -14,7 +14,11 @@ $(function(){
     });
 });
 
-function bloglist(title){
+var pageSize = 5;
+function bloglist(title, number){
+    if(number < 1){
+        return;
+    }
 	$.ajax({
         url: 'titles-'+title+'.txt',
         dataType: 'text',
@@ -22,11 +26,38 @@ function bloglist(title){
         	data = data.replace(/[\r\n]/g,',');
             var arr = data.split(',');
             var liView = "";
+            int start = pageSize * (number-1);
+            int end = pageSize * number;
             for(var i=0;i<arr.length;i++){
-            	var blogArr = arr[i].split('|');
-                liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[2]+'">'+blogArr[2]+'</small><a href="/'+title+'/index'+blogArr[0]+'.html">'+blogArr[1]+'</a></li>';
+                if(i > start || i <= end){
+            	    var blogArr = arr[i].split('|');
+                    liView += '<li class="postsli"><small class="datetime muted" data-time="'+blogArr[2]+'">'+blogArr[2]+'</small><a href="/'+title+'/index'+blogArr[0]+'.html">'+blogArr[1]+'</a></li>';
+                }
             }
             $("#contentPosts").html(liView);
         }
     });
 }
+
+function loadPage(title, number){
+    var view = "";
+    view += '<div class="left">';
+    view += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">';
+    view += '‹';
+    view += '</a>';
+    view += '</div>';
+    view += '<div class="right">';
+    view += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+')">';
+    view += '›';
+    view += '</a>';
+    view += '</div>';
+    view += '';
+}
+
+function loadDocument(title, index){
+
+}
+
+
+
+
