@@ -14,7 +14,7 @@ $(function(){
     });
 });
 
-var pageSize = 12;
+var pageSize = 10;
 function bloglist(title, number){
     if(number < 1){
         return;
@@ -51,7 +51,11 @@ function bloglist(title, number){
                             pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+i+"'"+')">'+i+'</a>';
                         }
                     }
-                    pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
+                    if(number == countPage){
+                        pageView += '<a href="javascript:void(0);" class="disabled">&gt; </a>';
+                    }else{
+                        pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(parseInt(number)+1)+"'"+')">&gt; </a>';
+                    }
                 }else if(number == countPage){
                     pageView += '<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"'"+')">&lt; </a>';
                     for(var i=1;i<=countPage;i++){
