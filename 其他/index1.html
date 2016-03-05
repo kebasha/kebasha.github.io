@@ -136,49 +136,53 @@
 
 
     <pre><code class="php">
-        
-
     function __autoload($className){
         require_once $className.".class.php";
     }
-
     $foo = new Foo();
-
-
     </code></pre>
 
     <pre><code class="java">
-        
-
     public class Test{
         public static void main(String[] args){
             System.out.println("Hello World!");
         }
     }
-
-
     </code></pre>
 
     <pre><code class="xml">
-        
+        #!/bin/bash
 
-    <!DOCTYPE html>
-    <title>Title</title>
+###### BEGIN CONFIG
+ACCEPTED_HOSTS="/root/.hag_accepted.conf"
+BE_VERBOSE=false
+###### END CONFIG
 
-    <style>body {width: 500px;}</style>
+if [ "$UID" -ne 0 ]
+then
+ echo "Superuser rights is required"
+ echo 'Printing the # sign'
+ exit 2
+fi
 
-    <script type="application/javascript">
-      function $init() {return true;}
-    </script>
+if test $# -eq 0
+then
+elif test [ $1 == 'start' ]
+else
+fi
 
-    <body>
-      <p checked class="title" id='title'>Title</p>
-      <!-- here goes the rest of the page -->
-    </body>
-
+genApacheConf(){
+ if [[ "$2" = "www" ]]
+ then
+  full_domain=$1
+ else
+  full_domain=$2.$1
+ fi
+ host_root="${APACHE_HOME_DIR}$1/$2/$(title)"
+ echo -e "# Host $1/$2 :"
+}
 
     </code></pre>
-
 
 				</section>
 			</div>
