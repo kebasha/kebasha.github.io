@@ -43,6 +43,7 @@ function bloglist(title, number){
 }
 
 function loadPage(title, number){
+    alert('000');
     $("a[name='pagingLeft']").click(function(){
         alert('11111');
         bloglist(title, number-1);
