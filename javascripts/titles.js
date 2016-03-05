@@ -38,9 +38,37 @@ function bloglist(title, number){
                 }
             }
             $("#contentPosts").html(liView);
-            var pageView = 
-        '<a class="disabled">&lt; </a><a class="current">1</a><a href="#?page=2">2</a><a href="#?page=3">3</a><a href="#?page=4">4</a><a href="#?page=5">5</a>...<a href="#?page=199">199</a><a href="#?page=200">200</a><a href="#?page=2">'+
-        '&gt; </a>';
+
+            var countPage = (arr.length % pageSize == 0 ? arr.length / pageSize : Math.ceil(arr.length / pageSize));
+            var pageView = "";
+            if(countPage <= 10){
+                if(number == 1){
+                    pageView += '<a class="disabled">&lt; </a>';
+                    for(var i=1;i<=countPage;i++){
+                        if(i==number){
+                            pageView += '<a class="current">'+i+'</a>';
+                        }else{
+                            pageView += '<a>'+i+'</a>';
+                        }
+                    }
+                    pageView += '<a>&gt; </a>';
+                }else if(number == countPage){
+                    pageView += '<a>&lt; </a>';
+                    for(var i=1;i<=countPage;i++){
+                        if(i==number){
+                            pageView += '<a class="current">'+i+'</a>';
+                        }else{
+                            pageView += '<a>'+i+'</a>';
+                        }
+                    }
+                    pageView += '<a class="disabled">&gt; </a>';
+                }else{
+
+                }
+            }else if(number == countPage){
+                
+            }
+            
             $("#quotes").html(pageView);
         }
     });
