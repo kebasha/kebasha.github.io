@@ -43,7 +43,6 @@ function bloglist(title, number){
 }
 
 function loadPage(title, number){
-    alert('000');
     $("#pagingLeft").html('<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number-1)+"',"+');">‹</a>');
     $("#pagingRight").html('<a href="javascript:void(0);" onclick="bloglist('+"'"+title+"',"+"'"+(number+1)+"'"+');">‹</a>');
     
