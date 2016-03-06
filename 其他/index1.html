@@ -23,9 +23,9 @@
 <script src='/javascripts/app.js' type='text/javascript'></script>
 <script>
     hljs.initHighlightingOnLoad();
-    alert(is_weixin());
     if(is_weixin() == true){
-        alert("jkl");
+        $("#left").remove();
+        $("#right").remove();
         $("#rmLeft").remove();
         $("#rmRight").remove();
     }
