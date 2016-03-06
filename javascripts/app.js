@@ -60,6 +60,15 @@ var App = function(){
 	};
 }();
 
+$(document).ready(function() { 
+	if(is_weixin() == true){
+        $("#left").remove();
+        $("#right").remove();
+        $("#rmLeft").remove();
+        $("#rmRight").remove();
+    }
+}); 
+
 function is_weixin(){ 
     var ua = navigator.userAgent.toLowerCase(); 
     if(ua.match(/MicroMessenger/i)=="micromessenger") { 
