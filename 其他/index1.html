@@ -20,13 +20,12 @@
 <script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
 <script src='/javascripts/nprogress.js' type='text/javascript'></script>
 <script src='/javascripts/theater.js' type='text/javascript'></script>
-<script src='/javascripts/titles.js' type='text/javascript'></script>
 <script src='/javascripts/app.js' type='text/javascript'></script>
 <script>
     hljs.initHighlightingOnLoad();
     if(is_weixin == true){
-        $("#left").remove();
-        $("#rifht").remove();
+        $("#rmLeft").remove();
+        $("#rmRight").remove();
     }
     var duoshuoQuery = {short_name:"kbasha"};
 
@@ -93,14 +92,14 @@
 
 			<section class="paging">
   
-    <div class="left">
+    <div id="rmLeft" class="left">
       <a href="#">
         ‹
       </a>
     </div>
   
   
-    <div class="right">
+    <div id="rmRight" class="right">
       <a href="#">
         ›
       </a>
