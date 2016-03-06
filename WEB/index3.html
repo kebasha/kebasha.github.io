@@ -1,7 +1,7 @@
 <html>
-	<head>
-	<title>关于本博客</title>
-	<meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+    <head>
+    <title>对Thread与Runnable的简单理解</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
 <link href='/styles/github.css' rel='stylesheet' type='text/css' />
@@ -24,18 +24,14 @@
 <script src='/javascripts/app.js' type='text/javascript'></script>
 <script>
     hljs.initHighlightingOnLoad();
-    if(is_weixin == true){
-        $("#left").remove();
-        $("#rifht").remove();
-    }
     var duoshuoQuery = {short_name:"kbasha"};
 
 </script>
 
-	</head>
-	<body>
+    </head>
+    <body>
 
-		<header>
+        <header>
 
 <div id="blog-desc">
     If you want do, then do.
@@ -58,9 +54,9 @@
         
     </div>
 
-		<div id='container'>
-			
-			<div class="block nav">
+        <div id='container'>
+            
+            <div class="block nav">
     <ul>
     
         <li>
@@ -91,17 +87,16 @@
 </div>
 
 
-			<section class="paging">
+            <section class="paging">
   
     <div class="left">
-      <a href="#">
+      <a href="index2.html">
         ‹
       </a>
     </div>
   
-  
     <div class="right">
-      <a href="#">
+      <a href="index4.html">
         ›
       </a>
     </div>
@@ -109,97 +104,73 @@
 </section>
 
 
-			<div class="content">
-				<section class='post'>
-					<h1>
-						关于本博客
-						<div class='date'>2016-03-06 00:43:55</div>
-					</h1>
-					<p>到目前为止，前前后后利用晚上空余时间把本博客终于算是玩弄得差不多了(本博客是拿<a target="_blank" href="https://github.com/sjclijie">Jaylee</a>的博客做的修改)。觉得还行的不防收藏一下，觉得比较屌丝的请勿喷，谢谢！</p>
-
+<div class="content">
+    <section class='post'>
+        <h1>
+            对Thread与Runnable的简单理解
+            <div class='date'>2016-03-06 12:07:42</div>
+        </h1>
+        <p style="text-indent:2em;">在Java中的Thread与Runnable可以很好的体现<code>EIT</code>造型。(<code>EIT</code>是台湾架构师高老师创造出来的，个人感觉非常的好)</p>
 <hr>
 
-<p><strong>以下是一些该博客的一些样式</strong></p>
+<p><strong><code>UML</code></strong></p>
+<img src="Thread.png"/>
+<p style="text-indent:2em">从UML图中可以看出，要在Java中创建一个线程，要么继承Thread类，要么实现Runnable接口。不管使用哪种方式创建，都需要重写或者实现run()方法。可能很多人都讨论过哪种方式比较好，其实当你看过源码后，结合EIT(Engine Interface Tire，EIT就是框架已经把E和I写好，然后我们码农按照自己的需求把T给实现了)，你会发现两种方式其实都是一样的，不存在哪个好与哪个不好。但是其中还是有差别的。</p>
+<p>说白点，不管你使用哪种方式，都是实现了接口中的run()方法，因为Thread本身就实现了Runnable接口。</p>
 
-<ul>
-<li>1.1 列表展示</li>
-<li>1.2 列表展示</li>
-</ul>
-
-<hr>
-
-<blockquote>
-<p>关于本博客</p>
-
-<p>本博客创建于2016-03-05</p>
-</blockquote>
-
-<p><strong><code>red title</code></strong></p>
-
-<p>下面是显示代码样式。如：</p>
-
-
-    <pre><code class="php">
-    function __autoload($className){
-        require_once $className.".class.php";
+<pre><code class="java">
+public interface Runnable {
+    public abstract void run();
+}
+</code></pre>
+<pre><code class="java">
+public class Thread implements Runnable {
+    public Thread() {
+        init(null, null, "Thread-" + nextThreadNum(), 0);
     }
-    $foo = new Foo();
-    </code></pre>
 
-    <pre><code class="java">
-    public class Test{
-        public static void main(String[] args){
-            System.out.println("Hello World!");
+    public Thread(Runnable target) {
+        init(null, target, "Thread-" + nextThreadNum(), 0);
+    }
+    public synchronized void start() {
+        if (threadStatus != 0)
+            throw new IllegalThreadStateException();
+        group.add(this);
+
+        boolean started = false;
+        try {
+            start0();
+            started = true;
+        } finally {
+            try {
+                if (!started) {
+                    group.threadStartFailed(this);
+                }
+            } catch (Throwable ignore) {
+                /* do nothing. If start0 threw a Throwable then
+                  it will be passed up the call stack */
+            }
         }
     }
-    </code></pre>
 
-    <pre><code class="bash">
-#!/bin/bash
-
-###### BEGIN CONFIG
-ACCEPTED_HOSTS="/root/.hag_accepted.conf"
-BE_VERBOSE=false
-###### END CONFIG
-
-if [ "$UID" -ne 0 ]
-then
- echo "Superuser rights is required"
- echo 'Printing the # sign'
- exit 2
-fi
-
-if test $# -eq 0
-then
-elif test [ $1 == 'start' ]
-else
-fi
-
-genApacheConf(){
- if [[ "$2" = "www" ]]
- then
-  full_domain=$1
- else
-  full_domain=$2.$1
- fi
- host_root="${APACHE_HOME_DIR}$1/$2/$(title)"
- echo -e "# Host $1/$2 :"
+    private native void start0();
 }
+</code></pre>
 
-    </code></pre>
+<p style="text-indent:2em;">从代码中我们可以知道，不管使用哪种方式都是调用的init()方法，只是参数不同。但是实现Runnable接口的方法，通过new Thread(mt).start()可以实现<code>资源共享</code></p>
+<p style="text-indent:2em;">当我们调用start()方法时便启动了一个线程，start()方法中又调用了一个本地方法start0()，而这个本地方法是通过JNI去调用的C的方法，然后C中调用了我们实现的run()方法，这种方式就叫做IOC(控制反转),通过基类调用子类的方式就是一种简单的IOC的实现。结合上面的UML图形，其实Thread就是一个框架，我们只需要来实现就可以了。熟悉EIT后，你会发现不管什么代码中，会经常出现EIT，简单的、复杂的都是基于EIT这种形式组成而来的。</p>
+                </section>
+            </div>
 
-				</section>
-			</div>
-
-			
-				<!-- 多说评论框 start -->
-<div class="block ds-thread" data-title="PHP5.2自5.6新特性" data-url="http://www.jaylee.cc/php5-2-since-new-in-5-6/"></div>
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="Java包装类缓存" data-url="http://kbasha.com/WEB/index3.html"></div>
 <!-- 多说评论框 end -->
-			
+            
 
-		</div>
+        </div>
 </div>
-		<script>
+        <script>
 
             jQuery(document).ready(function($) {
 
@@ -212,11 +183,11 @@ genApacheConf(){
                 App.initTheater();
             });
 
-		</script>
+        </script>
 
-	</body>
+    </body>
 
-	<div id="particles">
+    <div id="particles">
     <canvas class="pg-canvas"></canvas>
 </div>
 <script type="text/javascript">
