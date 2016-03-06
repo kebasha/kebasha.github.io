@@ -62,7 +62,7 @@ var App = function(){
 
 $(document).ready(function() { 
 	if(is_weixin() == true){
-		$("#container .block").remove();
+		$("#container .pagetop").remove();
         $("#left").remove();
         $("#right").remove();
         $("#rmLeft").remove();
