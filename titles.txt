@@ -1,5 +1,5 @@
-WEB
-移动端
-数据库
-大数据
-其他
+WEB|web.jpg
+移动端|phone.jpg
+数据库|database.png
+大数据|bigdata.jpg
+其他|blog.jpg

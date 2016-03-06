@@ -7,7 +7,8 @@ $(function(){
             var arr = dataStr.split(',');
             var liView = "";
             for(var i=0;i<arr.length;i++){
-                liView += '<li><a href="javascript:void(0);" onclick="bloglist('+"'"+arr[i]+"',1"+');">'+arr[i]+'</a></li>';
+                var blogArr = arr[i].split('|');
+                liView += '<li><a href="javascript:void(0);" onclick="bloglist('+"'"+blogArr[0]+"',1"+');">'+blogArr[0]+'</a></li>';
             }
             $("#titles").html(liView);
         }
