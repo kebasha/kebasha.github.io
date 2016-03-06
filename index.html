@@ -43,8 +43,12 @@
 <script src='/javascripts/titles.js' type='text/javascript'></script>
 <script>
     var duoshuoQuery = {short_name:"Kbasha"};
-    bloglist('WEB',1);
-    loadPage('WEB',1);
+    var titleStr = getQueryString(title);
+    if(titleStr == ''){
+        titleStr = 'WEB';
+    }
+    bloglist(titleStr,1);
+    loadPage(titleStr,1);
 </script>
 
     </head>
