@@ -105,45 +105,45 @@
 </section>
 
 
-            <div class="content">
-                <section class='post'>
-                    <h1>
-                        ArrayList源码分析
-                        <div class='date'>2016-03-06 10:52:20</div>
-                    </h1>
-                    <p>到目前为止，前前后后利用晚上空余时间把本博客终于算是玩弄得差不多了(本博客是拿<a target="_blank" href="https://github.com/sjclijie">Jaylee</a>的博客做的修改)。觉得还行的不防收藏一下，觉得比较屌丝的请勿喷，谢谢！</p>
+<div class="content">
+<section class='post'>
+    <h1>
+        ArrayList源码分析
+        <div class='date'>2016-03-06 10:52:20</div>
+    </h1>
+    <p style="text-indent:2em;">
+        ArrayList我相信会Java的朋友几乎天天都会用到，但知道它是怎么工作的不一定都知道，至少在我做Java开发的前一年多我是不知道的。当时写代码，完全就是靠自己记住一些方法，一些参数。现在想想，实在...
+    </p>
 
 <hr>
 
-<p><strong>以下是一些该博客的一些样式</strong></p>
+<p><strong>ArrayList要点</strong></p>
 
 <ul>
-<li>1.1 列表展示</li>
-<li>1.2 列表展示</li>
+<li>数据存储方式</li>
+<li>容量大小计算</li>
 </ul>
 
 <hr>
 
-<blockquote>
+<!--<blockquote>
 <p>关于本博客</p>
 
 <p>本博客创建于2016-03-05</p>
 </blockquote>
-
-<p><strong><code>red title</code></strong></p>
-
-<p>下面是显示代码样式。如：</p>
+-->
+<p><strong><code>ArrayList源码(有简单注释)</code></strong></p>
 
 
-    <pre><code class="java">
-    package java.util;
+<pre><code class="java">
+package java.util;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-public class ArrayList<E> extends AbstractList<E>
-        implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;
+        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable
 {
     private static final long serialVersionUID = 8683452581122892189L;
 
@@ -183,7 +183,7 @@ public class ArrayList<E> extends AbstractList<E>
      * 根据参数的值创建数组大小,小于0则抛出异常
      */
     public ArrayList(int initialCapacity) {
-        if (initialCapacity > 0) {
+        if (initialCapacity &gt; 0) {
             this.elementData = new Object[initialCapacity];
         } else if (initialCapacity == 0) {
             this.elementData = EMPTY_ELEMENTDATA;
@@ -208,7 +208,7 @@ public class ArrayList<E> extends AbstractList<E>
      * Arrays.copyOf(elementData, size, Object[].class);
      * 将elementData复制成一个Object类型的数组
      */
-    public ArrayList(Collection<? extends E> c) {
+    public ArrayList(Collection&lt;? extends E&gt; c) {
         elementData = c.toArray();
         if ((size = elementData.length) != 0) {
             // c.toArray might (incorrectly) not return Object[] (see 6260652)
@@ -226,7 +226,7 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public void trimToSize() {
         modCount++;
-        if (size < elementData.length) {
+        if (size &lt; elementData.length) {
             elementData = (size == 0)
               ? EMPTY_ELEMENTDATA
               : Arrays.copyOf(elementData, size);
@@ -246,7 +246,7 @@ public class ArrayList<E> extends AbstractList<E>
             // supposed to be at default size.
             : DEFAULT_CAPACITY;
 
-        if (minCapacity > minExpand) {
+        if (minCapacity &gt; minExpand) {
             ensureExplicitCapacity(minCapacity);
         }
     }
@@ -263,7 +263,7 @@ public class ArrayList<E> extends AbstractList<E>
         modCount++;
 
         // overflow-conscious code
-        if (minCapacity - elementData.length > 0)
+        if (minCapacity - elementData.length &gt; 0)
             grow(minCapacity);
     }
 
@@ -285,10 +285,10 @@ public class ArrayList<E> extends AbstractList<E>
     private void grow(int minCapacity) {
         // overflow-conscious code
         int oldCapacity = elementData.length;
-        int newCapacity = oldCapacity + (oldCapacity >> 1);
-        if (newCapacity - minCapacity < 0)
+        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);
+        if (newCapacity - minCapacity &lt; 0)
             newCapacity = minCapacity;
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
+        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)
             newCapacity = hugeCapacity(minCapacity);
         // minCapacity is usually close to size, so this is a win:
         elementData = Arrays.copyOf(elementData, newCapacity);
@@ -299,9 +299,9 @@ public class ArrayList<E> extends AbstractList<E>
      * 这里是大容量的处理，一个三目表达式而已
      */
     private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
+        if (minCapacity &lt; 0) // overflow
             throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
+        return (minCapacity &gt; MAX_ARRAY_SIZE) ?
             Integer.MAX_VALUE :
             MAX_ARRAY_SIZE;
     }
@@ -324,7 +324,7 @@ public class ArrayList<E> extends AbstractList<E>
      * 返回ArrayList是否包含传进来的值
      */
     public boolean contains(Object o) {
-        return indexOf(o) >= 0;
+        return indexOf(o) &gt;= 0;
     }
 
     /**
@@ -332,11 +332,11 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public int indexOf(Object o) {
         if (o == null) {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i &lt; size; i++)
                 if (elementData[i]==null)
                     return i;
         } else {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i &lt; size; i++)
                 if (o.equals(elementData[i]))
                     return i;
         }
@@ -348,11 +348,11 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public int lastIndexOf(Object o) {
         if (o == null) {
-            for (int i = size-1; i >= 0; i--)
+            for (int i = size-1; i &gt;= 0; i--)
                 if (elementData[i]==null)
                     return i;
         } else {
-            for (int i = size-1; i >= 0; i--)
+            for (int i = size-1; i &gt;= 0; i--)
                 if (o.equals(elementData[i]))
                     return i;
         }
@@ -364,7 +364,7 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public Object clone() {
         try {
-            ArrayList<?> v = (ArrayList<?>) super.clone();
+            ArrayList&lt;?&gt; v = (ArrayList&lt;?&gt;) super.clone();
             v.elementData = Arrays.copyOf(elementData, size);
             v.modCount = 0;
             return v;
@@ -385,12 +385,12 @@ public class ArrayList<E> extends AbstractList<E>
      * 这里用了范型,也是返回数组,T可以是任意类型
      */
     @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
+    public &lt;T&gt; T[] toArray(T[] a) {
+        if (a.length &lt; size)
             // Make a new array of a's runtime type, but my contents:
             return (T[]) Arrays.copyOf(elementData, size, a.getClass());
         System.arraycopy(elementData, 0, a, 0, size);
-        if (a.length > size)
+        if (a.length &gt; size)
             a[size] = null;
         return a;
     }
@@ -454,7 +454,7 @@ public class ArrayList<E> extends AbstractList<E>
         E oldValue = elementData(index);
 
         int numMoved = size - index - 1;
-        if (numMoved > 0)
+        if (numMoved &gt; 0)
             System.arraycopy(elementData, index+1, elementData, index,
                              numMoved);
         elementData[--size] = null; // clear to let GC do its work
@@ -467,13 +467,13 @@ public class ArrayList<E> extends AbstractList<E>
      */
     public boolean remove(Object o) {
         if (o == null) {
-            for (int index = 0; index < size; index++)
+            for (int index = 0; index &lt; size; index++)
                 if (elementData[index] == null) {
                     fastRemove(index);
                     return true;
                 }
         } else {
-            for (int index = 0; index < size; index++)
+            for (int index = 0; index &lt; size; index++)
                 if (o.equals(elementData[index])) {
                     fastRemove(index);
                     return true;
@@ -488,7 +488,7 @@ public class ArrayList<E> extends AbstractList<E>
     private void fastRemove(int index) {
         modCount++;
         int numMoved = size - index - 1;
-        if (numMoved > 0)
+        if (numMoved &gt; 0)
             //从index+1开始,用后面的元素替换前面的元素
             System.arraycopy(elementData, index+1, elementData, index,
                              numMoved);
@@ -502,7 +502,7 @@ public class ArrayList<E> extends AbstractList<E>
         modCount++;
 
         // clear to let GC do its work
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i &lt; size; i++)
             elementData[i] = null;
 
         size = 0;
@@ -511,7 +511,7 @@ public class ArrayList<E> extends AbstractList<E>
     /**
      * 将集合追回到ArrayList中
      */
-    public boolean addAll(Collection<? extends E> c) {
+    public boolean addAll(Collection&lt;? extends E&gt; c) {
         Object[] a = c.toArray();
         int numNew = a.length;
         ensureCapacityInternal(size + numNew);  // Increments modCount
@@ -523,7 +523,7 @@ public class ArrayList<E> extends AbstractList<E>
     /**
      * 从指定位置开始,将集合添加到ArrayList中
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public boolean addAll(int index, Collection&lt;? extends E&gt; c) {
         rangeCheckForAdd(index);
 
         Object[] a = c.toArray();
@@ -531,7 +531,7 @@ public class ArrayList<E> extends AbstractList<E>
         ensureCapacityInternal(size + numNew);  // Increments modCount
 
         int numMoved = size - index;
-        if (numMoved > 0)
+        if (numMoved &gt; 0)
             System.arraycopy(elementData, index, elementData, index + numNew,
                              numMoved);
 
@@ -551,7 +551,7 @@ public class ArrayList<E> extends AbstractList<E>
 
         // clear to let GC do its work
         int newSize = size - (toIndex-fromIndex);
-        for (int i = newSize; i < size; i++) {
+        for (int i = newSize; i &lt; size; i++) {
             elementData[i] = null;
         }
         size = newSize;
@@ -564,7 +564,7 @@ public class ArrayList<E> extends AbstractList<E>
      * which throws an ArrayIndexOutOfBoundsException if index is negative.
      */
     private void rangeCheck(int index) {
-        if (index >= size)
+        if (index &gt;= size)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
@@ -581,7 +581,7 @@ public class ArrayList<E> extends AbstractList<E>
         s.writeInt(size);
 
         // Write out all elements in the proper order.
-        for (int i=0; i<size; i++) {
+        for (int i=0; i&lt;size; i++) {
             s.writeObject(elementData[i]);
         }
 
@@ -603,20 +603,21 @@ public class ArrayList<E> extends AbstractList<E>
         // Read in capacity
         s.readInt(); // ignored
 
-        if (size > 0) {
+        if (size &gt; 0) {
             // be like clone(), allocate array based upon size not capacity
             ensureCapacityInternal(size);
 
             Object[] a = elementData;
             // Read in all elements in the proper order.
-            for (int i=0; i<size; i++) {
+            for (int i=0; i&lt;size; i++) {
                 a[i] = s.readObject();
             }
         }
     }
 
 }
-    </code></pre>
+
+</code></pre>
 
                 </section>
             </div>
