@@ -44,7 +44,7 @@
 <script>
     var duoshuoQuery = {short_name:"Kbasha"};
     var titleStr = getQueryString("title");
-    if(titleStr == ''){
+    if(titleStr == '' || titleStr == null || titleStr == 'null'){
         titleStr = 'WEB';
     }
     bloglist(titleStr,1);
