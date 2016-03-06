@@ -86,5 +86,5 @@ function getQueryString(name)
     var data = decodeURI(r);
     alert(data);
     alert(r[2]);
-    if(r!=null)return  unescape(r[2]); return null;
+    if(r!=null)return  decodeURI(r[2]); return null;
 }
