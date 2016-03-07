@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>Oracle null运用</title>
+    <title>单例模式</title>
     <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
@@ -90,13 +90,13 @@
             <section class="paging">
   
     <div class="left">
-      <a href="index1.html">
+      <a href="index3.html">
         ‹
       </a>
     </div>
   
     <div class="right">
-      <a href="index3.html">
+      <a href="index5.html">
         ›
       </a>
     </div>
@@ -104,56 +104,59 @@
 </section>
 
 
-            <div class="content">
-                <section class='post'>
-                    <h1>
-                        Oracle null注意事项
-                        <div class='date'>2016-03-07</div>
-                    </h1>
-                    <p style="text-indent:2em;">对于编程的朋友们，null这个东西肯定不陌生了，不管在数据库还是在编程语句中，基本上都有。今天要说的是Oracle中的null。</p>
-
+<div class="content">
+    <section class='post'>
+        <h1>
+            单例模式
+            <div class='date'>2016-03-07 06:36:42</div>
+        </h1>
+        <p style="text-indent:2em;">单例模式是设计模式中使用最为普遍的模式之一。它是一种对象创建模式，用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。</p>
 <hr>
 
-<p><strong>知识点：</strong></p>
+<p><strong>优点：</strong></p>
 
 <ul>
-<li>1、等式操作</li>
-<li>2、not in操作</li>
+<li>1、减少系统开销</li>
+<li>2、减轻GC压力</li>
 </ul>
 
-<hr>
-
-<p><strong><code>等式操作</code></strong></p>
+<p><strong><code>优点</code></strong></p>
 <blockquote>
-<p style="text-indent:2em;">在Oracle中null就表示为空的意思，对null的操作方式有两种，<code>is null</code>和<code>is not null</code>，可能很多人开始经常都会直接写成<code>=null</code>,弄了半天才发现结果不正确。但是有个例外：
-</p>
-<pre><code class="sql">
-update table set column = null;
-</code></pre>
-<p style="text-indent:2em;">这里的＝不是比较符，这里是赋值语句。空值意味着该值不可用、未指派、未知的、无效或不适用，它不同于0或者空格，因为空值无法等于或者不等于任何值。(null在Oracle成本运算时容易算错，优化器对null值的计算容易不准确，另外null在中间字段和最后一个字段的存储方式也是不同的)
-</p>
+<p style="text-indent:2em;">对于频繁使用的对象，可以 省略创建对象所花费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销。同时由于new操作的次数减少，因而对系统内存的使用频率也会降低，这将减轻GC压力，缩短GC停顿时间。</p>
 </blockquote>
 
-<p><strong><code>not in操作</code></strong></p>
+<p><strong><code>创建方法</code></strong></p>
 <blockquote>
-<p style="text-indent:2em;">有时候我们在使用not in的时候，中间可能会出现空值。比如：</p>
-<pre><code class="sql">
-select * from t where city not in('shanghai','beijin',null);
+<pre><code class="java">
+private static Singleton instance = new Singleton();
 </code></pre>
-<p style="text-indent:2em;">虽然看上去没有什么总是，但是Oracle会对not in进行转换，转换成如下：</p>
-<pre><code class="sql">
-select * from t where city <> 'shanghai' and city <> 'beijin' and city <> null;
+<p style="text-indent:0em;">通常我们都会写成这种形式，直接通过new来创建。虽然很方便，但是这种方式没有延迟加载的功能。</p>
+<pre><code class="java">
+private static LazySingleton instance = null;
+public static synchronized LazySingleton getInstance(......){}
 </code></pre>
-<p style="text-indent:2em;">由于null不能做等式操作，所以city<>null的结果为null，然后又和其它两个条件用and连接，最后整个表达式的结果就为null了，这样就会导致整个sql的结果为null。所以，只要not in里有一个为null值，那么sql将不会有任何结果。</p>
+<p style="text-indent:0em;">这种方法初始时为null，然后通过getInstance()方法获取对象。虽然实现了延迟加载，但在多线程环境下性能不理想。</p>
+<pre><code class="java">
+public class StaticSingleton{
+  private StaticSingleton(){}
+  private static class SingletonHolder{
+    private static StaticSingleton instance = new StaticSingleton();
+  }
+  public static StaticSingleton getInstance(){
+    return SingletonHolder.instance;
+  }
+}
+</code></pre>
+<p style="text-indent:0em;">在这个实例中，单例模式使用内部类来维护单例的实例，当StaticSingleton被加载时，其内部类并不会被初始化，所以可以确保当StaticSingleton类被加载时，不会初始化单例类，从而实现延迟加载。而当调用getInstance()方法时才会加载SingletonHolder来初始化instance。使用这种内部类的方式实现单例模式，既可以做到延迟加载，又不必使用同步关键字，它是一种比较完善的实现方式。</p>
 </blockquote>
-    
+
 
                 </section>
             </div>
 
             
                 <!-- 多说评论框 start -->
-<div class="block ds-thread" data-title="Oracle null注意事项" data-url="http://kbasha.com/数据库/index2.html"></div>
+<div class="block ds-thread" data-title="单例模式" data-url="http://kbasha.com/WEB/index4.html"></div>
 <!-- 多说评论框 end -->
             
 
