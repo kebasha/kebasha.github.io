@@ -130,12 +130,16 @@
 <pre><code class="java">
 private static Singleton instance = new Singleton();
 </code></pre>
+<blockquote>
 <p style="text-indent:2em;">通常我们都会写成这种形式，直接通过new来创建。虽然很方便，但是这种方式没有延迟加载的功能。</p>
+</blockquote>
 <pre><code class="java">
 private static LazySingleton instance = null;
 public static synchronized LazySingleton getInstance(......){}
 </code></pre>
+<blockquote>
 <p style="text-indent:2em;">这种方法初始时为null，然后通过getInstance()方法获取对象。虽然实现了延迟加载，但在多线程环境下性能不理想。</p>
+</blockquote>
 <pre><code class="java">
 public class StaticSingleton{
   private StaticSingleton(){}
@@ -147,8 +151,9 @@ public class StaticSingleton{
   }
 }
 </code></pre>
+<blockquote>
 <p style="text-indent:2em;">在这个实例中，单例模式使用内部类来维护单例的实例，当StaticSingleton被加载时，其内部类并不会被初始化，所以可以确保当StaticSingleton类被加载时，不会初始化单例类，从而实现延迟加载。而当调用getInstance()方法时才会加载SingletonHolder来初始化instance。使用这种内部类的方式实现单例模式，既可以做到延迟加载，又不必使用同步关键字，它是一种比较完善的实现方式。</p>
-
+</blockquote>
 
 
                 </section>
