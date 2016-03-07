@@ -1,0 +1,217 @@
+<html>
+    <head>
+    <title>Oracle null运用</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="#">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index2.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+            <div class="content">
+                <section class='post'>
+                    <h1>
+                        Oracle null注意事项
+                        <div class='date'>2016-03-07</div>
+                    </h1>
+                    <p style="text-indent:2em;">对于编程的朋友们，null这个东西肯定不陌生了，不管在数据库还是在编程语句中，基本上都有。今天要说的是Oracle中的null。</p>
+
+<hr>
+
+<p><strong>知识点：</strong></p>
+
+<ul>
+<li>1、等式操作</li>
+<li>2、not in操作</li>
+</ul>
+
+<hr>
+
+<p><strong><code>等式操作</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">在Oracle中null就表示为空的意思，对null的操作方式有两种，<code>is null</code>和<code>is not null</code>，可能很多人开始经常都会直接写成<code>=null</code>,弄了半天才发现结果不正确。但是有个例外：
+</p>
+<pre><code class="sql">
+update table set column = null;
+</code></pre>
+<p style="text-indent:2em;">这里的＝不是比较符，这里是赋值语句。空值意味着该值不可用、未指派、未知的、无效或不适用，它不同于0或者空格，因为空值无法等于或者不等于任何值。(null在Oracle成本运算时容易算错，优化器对null值的计算容易不准确，另外null在中间字段和最后一个字段的存储方式也是不同的)
+</p>
+</blockquote>
+
+<p><strong><code>not in操作</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">有时候我们在使用not in的时候，中间可能会出现空值。比如：</p>
+<pre><code class="sql">
+select * from t where city not in('shanghai','beijin',null);
+</code></pre>
+<p style="text-indent:2em;">虽然看上去没有什么总是，但是Oracle会对not in进行转换，转换成如下：</p>
+<pre><code class="sql">
+select * from t where city <> 'shanghai' and city <> 'beijin' and city <> null;
+</code></pre>
+<p style="text-indent:2em;">由于null不能做等式操作，所以city<>null的结果为null，然后又和其它两个条件用and连接，最后整个表达式的结果就为null了，这样就会导致整个sql的结果为null。所以，只要not in里有一个为null值，那么sql将不会有任何结果。</p>
+</blockquote>
+    
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="Oracle null注意事项" data-url="http://kbasha.com/数据库/index2.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
