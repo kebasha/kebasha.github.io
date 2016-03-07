@@ -475,7 +475,7 @@ ul.posts .datetime {
   zoom: 1;
   *display: inline;
   *vertical-align: auto;
-  width: 130px;
+  width: 80px;
   text-transform: uppercase;
   float: right;
   color: #999;
@@ -488,7 +488,7 @@ ul.posts .datetime {
   zoom: 1;
   *display: inline;
   *vertical-align: auto;
-  width: 130px;
+  width: 80px;
   text-transform: uppercase;
   float: right;
   color: #999;
