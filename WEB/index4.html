@@ -154,6 +154,18 @@ public class StaticSingleton{
 <blockquote>
 <p style="text-indent:2em;">在这个实例中，单例模式使用内部类来维护单例的实例，当StaticSingleton被加载时，其内部类并不会被初始化，所以可以确保当StaticSingleton类被加载时，不会初始化单例类，从而实现延迟加载。而当调用getInstance()方法时才会加载SingletonHolder来初始化instance。使用这种内部类的方式实现单例模式，既可以做到延迟加载，又不必使用同步关键字，它是一种比较完善的实现方式。</p>
 </blockquote>
+<pre><code class="java">
+public enum EnumIvoryTower {
+  INSTANCE;
+  @Override
+  public String toString() {
+    return getDeclaringClass().getCanonicalName() + "@" + hashCode();
+  }
+}
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">这个我相信很多朋友都不知道，我也是在github上才发现的。就是使用枚举来实现单例，非常的简单。不仅能保证是一个实例，而且还是线程安全的。</p>
+</blockquote>
 
 
                 </section>
