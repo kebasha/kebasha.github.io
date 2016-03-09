@@ -1,0 +1,250 @@
+<html>
+    <head>
+    <title>原型模式</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index5.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index7.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            原型模式(Prototype)
+            <div class='date'>2016-03-10 07:04:25</div>
+        </h1>
+        <p style="text-indent:2em;">原型模式用于创建重复的对象，同时又能保证性能。JDK中的Object.clone()就是原型模式的典型代表。</p>
+<hr>
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>1、提高性能</li>
+<li>2、逃避构造函数的约束</li>
+</ul>
+
+<p><strong><code>提高性能</code></strong></p>
+<pre><code class="java">
+public class Prototype implements Cloneable {  
+    public Prototype clone(){  
+        Prototype prototype = null;  
+        try{  
+            prototype = (Prototype)super.clone();  
+        }catch(CloneNotSupportedException e){  
+            e.printStackTrace();  
+        }  
+        return prototype;   
+    }  
+}  
+
+public class ConcretePrototype extends Prototype{  
+    public void show(){  
+        System.out.println("原型模式实现类");  
+    }  
+}  
+
+public class Client {  
+    public static void main(String[] args){  
+        ConcretePrototype cp = new ConcretePrototype();  
+        for(int i=0; i& 10; i++){  
+            ConcretePrototype clonecp = (ConcretePrototype)cp.clone();  
+            clonecp.show();  
+        }  
+    }  
+}  
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">使用原型模式创建对象比直接new一个对象在性能上要好的多，因为Object类的clone方法是一个native方法，它直接操作内存的二进制流，特别是当复制的对象很大时，性能的差别就非常明显。一般在需要重复创建对象的时候使用，比如要在一个循环体内他对对象，同时需要创建的对象也比较复杂或循环次数很多。</p>
+</blockquote>
+
+<p><strong><code>逃避构造函数的约束</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">使用原型模式创建对象是不会调用类的构造方法的。因为对象创建是通过调用clone方法来实现的，它直接在内存中复制数据，因此不会调用到类的构造方法。而在我们单例模式中，特意使用的private权限的构造方法，这一点要非常注意，不要混合使用。</p>
+</blockquote>
+
+<p><strong><code>深拷贝与浅拷贝</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">Object类的clone方法只会拷贝对象中的基本数据类型，对于数组、容器对象、引用对象等都不会拷贝，这就是浅拷贝。如果要实现深拷贝，必须另行拷贝。如：</p>
+</blockquote>
+<pre><code class="java">
+public class Prototype implements Cloneable {  
+    private ArrayList list = new ArrayList();  
+    public Prototype clone(){  
+        Prototype prototype = null;  
+        try{  
+            prototype = (Prototype)super.clone();  
+            prototype.list = (ArrayList) this.list.clone();  
+        }catch(CloneNotSupportedException e){  
+            e.printStackTrace();  
+        }  
+        return prototype;   
+    }  
+}  
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">由于ArrayList不是基本类型，所以成员亦是list是不会被拷贝的，需要我们自己实现拷贝。注意：这里深拷贝的基本类型是java中的8种基本类型以及他的封装类型，同时还包括String类型，除了以上的类型是深拷贝，其余的都是浅拷贝。</p>
+</blockquote>
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="原型模式" data-url="http://kbasha.com/WEB/index6.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
