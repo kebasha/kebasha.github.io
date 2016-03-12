@@ -1,0 +1,261 @@
+<html>
+    <head>
+    <title>装饰器模式</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index7.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index9.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            装饰器模式(Decorator)
+            <div class='date'>2016-03-12 09:17:25</div>
+        </h1>
+        <p style="text-indent:2em;">装饰器模式允许向一个现有的对象添加新的功能，同时又不改变其结构。动态地给一个对象添加一些额外的职责，就新增加功能来说，装饰器模式相比生成子类更为灵活。一般我们为了扩展一个类经常使用继承方式实现，但随着扩展功能的增多，子类会很膨胀。</p>
+<hr>
+
+
+<p><strong><code>InputStream流处理器图</code></strong></p>
+<img src="index8_01.png"/>
+<blockquote>
+<p style="text-indent:2em;">从上面的图中可以看出，InputStream有七个直接的具体子类，有四个属于FilterInputStream的具体子类。</p>
+</blockquote>
+
+<p><strong><code>原始流处理器</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">原始流处理器接收一个Byte数组对象、String对象、FileDiscriptor对象或者不同类型的流源对象。</p>
+<p style="text-indent:2em;">1、ByteArrayInputStream：为多线程的通信提供缓冲区操作功能，接收一个Byte数组作为流的源。</p>
+<p style="text-indent:2em;">2、FileInputStream：建立一个与文件有关的输入流，接收一个File对象作为流源。</p>
+<p style="text-indent:2em;">3、PipedInputStream：可以与PipedOutputStream配合使用，用于读入一个数据管道的数据，接收一个PipedOutputStream作为源。</p>
+<p style="text-indent:2em;">4、StringBufferInputStream：将一个字符串缓冲区转换为一个输入流，接收一个String对象作为流源。(JDK帮助文档上说明：已过时。此类未能正确地将字符转换为字节。从JDK1.1开始，从字符串创建流的首选方法是通过StringReader类进行创建。只有字符串中每个字符的低八位可以由此类使用。)</p>
+</blockquote>
+
+<p><strong><code>链接流处理器</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">链接流处理器就是可以接收另一个流对象作为源，并对之进行功能扩展的类。InputStream类型的链接处理器包括以下几种，它们都接收另一个InputStream对象作为流源。</p>
+<p style="text-indent:2em;">1、FilterInputStream称为过滤输入流，它将另一个输入流作为流源。这个类的子类包括以下几种：
+<ul>
+<li>BufferedInputStream:用来从硬盘将数据读入到一个内存缓冲区中，并从缓冲区提供数据。</li>
+<li>DataInputStream:提供基于多字节的读取方法，可以读取原始类型的数据。</li>
+<li>LineNumberInputStream:提供带有行计数功能的过滤输入流。</li>
+<li>PushbackInputStream:提供特殊的功能，可以将已经读取的字节“推回”到输入流中。</li>
+</ul></p>
+<p style="text-indent:2em;">2、ObjectInputStream可以将使用ObjectInputStream串行化的原始数据类型和对象重新并行化。</p>
+<p style="text-indent:2em;">3、SeqcueneInputStream可以将两个已有的输入流连接起来，形成一个输入流，从而将多个输入流排列构成一个输入流序列。</p>
+</blockquote>
+
+<p><strong><code>装饰器模式</code></strong></p>
+<ul>
+<li>抽象构件(Component)角色：由InputStream扮演。这是一个抽象类，为各种子类型提供统一的接口。</li>
+<li>具体构件(ConcreteComponent)角色：由ByteArrayInputStream、FileInputStream、PipedInputStream、StringBufferInputStream等类扮演。它们实现了抽象构件角色所规定的接口。</li>
+<li>抽象装饰(Decorator)角色：由FilterInputStream扮演。它实现了InputStream所规定的接口。</li>
+<li>具体装饰(ConcreteDecorator)角色：由几个类扮演，分别是BufferedInputStream、DataInputStream以及两个不常用到的类LineNumberInputStream、PushbackInputStream。</li>
+</ul>
+<blockquote>
+<p style="text-indent:2em;">我们先看看各有种流的大致作用：</p>
+<ul>
+<li>ByteArrayInputStream:字节数组输入流，可以传入一个字节数组进行读取。</li>
+<li>FileInputStream:文件输入流，可以从一个文件中读取文件的内容。</li>
+<li>ObjectInputStream:能够读取java对象，可以直接读取通过ObjectOutputStream序列化到文件中的对象出来。</li>
+<li>PipedInputStream:管道流，可以实现两个线程之间二进制数据的传输。</li>
+<li>SequenceInputStream:合并流，可以将多个源合并成一个源。</li>
+<li>StringBufferInputStream:可以从一个字符串中读取(已过时)，推荐使用StringReader。</li>
+<li>BufferedInputStream:带有缓冲区的输入流。</li>
+<li>DataInputStream:提供多种对文件的读取方法。</li>
+<li>LineNumberInputStream:提供跟踪当前行号的功能。</li>
+<li>PushbackInputStream:拥有推回输入流的功能。</li>
+</ul>
+</blockquote>
+<pre><code class="java">
+public class Test {
+    public static void main(String[] args) throws Exception{
+        DataInputStream dis = null;
+        try{
+            dis = new DataInputStream(
+                    new BufferedInputStream(
+                            new FileInputStream("test.txt")
+                    )
+            );
+            byte[] bs = new byte[dis.available()];
+            dis.read(bs);
+            String content = new String(bs);
+            System.out.println(content);
+        }finally{
+            dis.close();
+        }
+    }
+}
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">从上面的示例可以看出，首先是使用FileInputStream读取文本，然后通过两种装饰类分别对其进行新功能的添加，使其拥有缓存以及更多的读取文件的方式。具体是怎么实现的，希望大家抽时间去看IO包的源码，知道IO包结构去看源码可以很好的理解其设计原理。总之我通过看别人的简单示例与自己通过看源码的理解，差别还是很大的。</p>
+
+</blockquote>
+
+
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="装饰器模式" data-url="http://kbasha.com/WEB/index8.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
