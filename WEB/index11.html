@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>外观模式</title>
+    <title>桥接模式</title>
     <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
@@ -90,13 +90,13 @@
             <section class="paging">
   
     <div class="left">
-      <a href="index9.html">
+      <a href="index10.html">
         ‹
       </a>
     </div>
   
     <div class="right">
-      <a href="index11.html">
+      <a href="index12.html">
         ›
       </a>
     </div>
@@ -107,90 +107,137 @@
 <div class="content">
     <section class='post'>
         <h1>
-            外观模式
+            桥接模式
             <div class='date'>2016-03-13 10:30:28</div>
         </h1>
-        <p style="text-indent:2em;">外观模式隐藏系统的复杂性，并向客户端提供了一个客户端可以访问系统的接口。外观模式主要是为了降低访问复杂系统的内部子系统时的复杂度，简化客户端与之的接口。客户端不与系统耦合，外观类与系统耦合。</p>
+        <p style="text-indent:2em;">桥接是用于把抽象化与实现化解耦，使得二者可以独立变化。对于两个独立变化的，使用桥接模式再适合不过了。当你用桥接模式的思想去分析一个系统或对象，然后用代码实现它之后拿给别人看，未必有人能说出你用了桥接模式。桥接模式是为了解决这个问题而来的：继承关系是一种紧密的依赖关系，以至于父类有任何改变将导致子类也发生变化，而且继承结构会随着新功能的增加而不断增加，类越来越多。桥接模式就是把继承关系变成合成/聚合关系。</p>
 <hr>
 
 <p><strong>优点：</strong></p>
 <ul>
-<li>1、减少系统相互依赖</li>
-<li>2、提高灵活性</li>
-<li>3、提高了安全性</li>
+<li>1、抽象和实现的分享</li>
+<li>2、优秀的扩展能力</li>
+<li>3、实现细节对客户透明</li>
 </ul>
 <p><strong>缺点：</strong></p>
 <ul>
-<li>不符合开闭原则，如果要改东西很麻烦，继承重写都不合适</li>
+<li>桥接模式的引入会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计与编程。</li>
 </ul>
 
 <p><strong><code>外观模式</code></strong></p>
+<img src="index11_01.png"/>
 <pre><code class="java">
-public interface Shape {
-   void draw();
+abstract　class Shape{
+    protected Drawing myDrawing;
+    abstract　public　void draw();
+
+    Shape(Drawing drawing){
+        myDrawing=drawing;
+    }
+
+    protected　void drawLine(){
+        myDrawing.drawLine();
+    }
+
+    protected　void drawCircle(){
+        myDrawing.drawCircle();
+    }
 }
 
-public class Rectangle implements Shape {
-   @Override
-   public void draw() {
-      System.out.println("Rectangle::draw()");
-   }
+class Rectangle extends Shape{
+    public Rectangle(Drawing darw){
+        super(darw);
+    }
+
+    public　void draw(){
+        drawLine();
+        drawLine();
+        drawLine();
+        drawLine();
+    }
 }
 
-public class Square implements Shape {
-   @Override
-   public void draw() {
-      System.out.println("Square::draw()");
-   }
+class Circle extends Shape{
+    public Circle(Drawing draw){
+        super(draw);
+    }
+
+    publicvoid draw(){
+        myDrawing.drawCircle();
+    }
 }
 
-public class Circle implements Shape {
-   @Override
-   public void draw() {
-      System.out.println("Circle::draw()");
-   }
+
+abstract　class Drawing{
+    abstract　public　void drawLine();
+    abstract　public　void drawCircle();
 }
 
-//外观类
-public class ShapeMaker {
-   private Shape circle;
-   private Shape rectangle;
-   private Shape square;
+class V1Drawing extends Drawing{
+    public　void drawLine(){
+        DP1.draw_a_line();
+    }
 
-   public ShapeMaker() {
-      circle = new Circle();
-      rectangle = new Rectangle();
-      square = new Square();
-   }
-
-   public void drawCircle(){
-      circle.draw();
-   }
-   public void drawRectangle(){
-      rectangle.draw();
-   }
-   public void drawSquare(){
-      square.draw();
-   }
+    public　void drawCircle(){
+        DP1.draw_a_circle();
+    }
 }
 
-public class FacadePatternDemo {
-   public static void main(String[] args) {
-      ShapeMaker shapeMaker = new ShapeMaker();
+class V2Drawing extends Drawing{
+    public　void drawLine(){
+        DP2.drawLine();
+    }
 
-      shapeMaker.drawCircle();
-      shapeMaker.drawRectangle();
-      shapeMaker.drawSquare();      
-   }
+    public　void drawCircle(){
+        DP2.drawCircle();
+    }
 }
+
+
+class DP1{
+    public　static　void draw_a_line(){
+        System.out.println("使用DP1的draw_a_line()画线");
+    }
+
+    public　static　void draw_a_circle(){
+        System.out.println("使用DP1的draw_a_circle()画圆");
+    }
+}
+
+
+class DP2{
+    public　static　void drawLine(){
+        System.out.println("使用DP2的drawLine()画线");
+    }
+
+    public　static　void drawCircle(){
+        System.out.println("使用DP2的drawCircle()画圆");
+    }
+}
+
+
+public　class BridgeClient {
+    public　static　void main(String[] args) {
+        Drawing draw1=new V1Drawing();
+        Drawing draw2=new V2Drawing();
+        Shape shape1=new Rectangle(draw1);
+        shape1.draw();
+        Shape shape2=new Circle(draw2);
+        shape2.draw();
+    }
+}
+
 </code></pre>
+<blockquote>
+<p style="text-indent:2em;">在这个例子中Shape对象实际上是一个Retangle或Circle对象，但Client并不知道到底是哪个。Drawing实际上是一个V1Drawing或V2Drawing，但Shape对象并不知道到底是哪个。DP1或DP2使用它的Drawing对象知道是哪一个。Shape是事物的抽象，Drawing是实现或者操作事物方法的抽象。他们两个都可以独立地变化。正如例子中所说那样，我们可以输出一个矩形可以使用V1Drawing也可以使用V2Drawing来完成，输出一个圆形也是一样都有两种方法。</p>
+</blockquote>
 
                 </section>
             </div>
 
             
                 <!-- 多说评论框 start -->
-<div class="block ds-thread" data-title="外观模式" data-url="http://kbasha.com/WEB/index10.html"></div>
+<div class="block ds-thread" data-title="桥接模式" data-url="http://kbasha.com/WEB/index11.html"></div>
 <!-- 多说评论框 end -->
             
 
