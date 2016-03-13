@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>桥接模式</title>
+    <title>享元模式</title>
     <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
@@ -90,13 +90,13 @@
             <section class="paging">
   
     <div class="left">
-      <a href="index10.html">
+      <a href="index12.html">
         ‹
       </a>
     </div>
   
     <div class="right">
-      <a href="index12.html">
+      <a href="index14.html">
         ›
       </a>
     </div>
@@ -107,129 +107,20 @@
 <div class="content">
     <section class='post'>
         <h1>
-            桥接模式
-            <div class='date'>2016-03-13 10:30:28</div>
+            享元模式
+            <div class='date'>2016-03-13 20:35:34</div>
         </h1>
-        <p style="text-indent:2em;">桥接是用于把抽象化与实现化解耦，使得二者可以独立变化。对于两个独立变化的，使用桥接模式再适合不过了。当你用桥接模式的思想去分析一个系统或对象，然后用代码实现它之后拿给别人看，未必有人能说出你用了桥接模式。桥接模式是为了解决这个问题而来的：继承关系是一种紧密的依赖关系，以至于父类有任何改变将导致子类也发生变化，而且继承结构会随着新功能的增加而不断增加，类越来越多。桥接模式就是把继承关系变成合成/聚合关系。</p>
+        <p style="text-indent:2em;">享元模式是设计模式中少数几个以提高系统性能为目的的模式之一。它的核心思想是：如果在一个系统存在多个相同的对象，那么只需要共享一份对象的拷贝，而不必为每一次使用创建新的对象。在享元模式中，由于需要构造和维护这些可以共享的对象，因此，常常会出现一个工厂类，用于维护和创建对象。</p>
 <hr>
 
 <p><strong>优点：</strong></p>
 <ul>
-<li>1、抽象和实现的分享</li>
-<li>2、优秀的扩展能力</li>
-<li>3、实现细节对客户透明</li>
+<li>1、可以节省重复创建对象的开销</li>
+<li>2、由于创建对象的数量减少，所以对系统内存的需求也减少，这将使得GC的压力也相应的降低</li>
 </ul>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>桥接模式的引入会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计与编程。</li>
-</ul>
-
-<p><strong><code>外观模式</code></strong></p>
-<img src="index11_01.png"/>
-<pre><code class="java">
-abstract　class Shape{
-    protected Drawing myDrawing;
-    abstract　public　void draw();
-
-    Shape(Drawing drawing){
-        myDrawing=drawing;
-    }
-
-    protected　void drawLine(){
-        myDrawing.drawLine();
-    }
-
-    protected　void drawCircle(){
-        myDrawing.drawCircle();
-    }
-}
-
-class Rectangle extends Shape{
-    public Rectangle(Drawing darw){
-        super(darw);
-    }
-
-    public　void draw(){
-        drawLine();
-        drawLine();
-        drawLine();
-        drawLine();
-    }
-}
-
-class Circle extends Shape{
-    public Circle(Drawing draw){
-        super(draw);
-    }
-
-    public void draw(){
-        myDrawing.drawCircle();
-    }
-}
-
-
-abstract　class Drawing{
-    abstract　public　void drawLine();
-    abstract　public　void drawCircle();
-}
-
-class V1Drawing extends Drawing{
-    public　void drawLine(){
-        DP1.draw_a_line();
-    }
-
-    public　void drawCircle(){
-        DP1.draw_a_circle();
-    }
-}
-
-class V2Drawing extends Drawing{
-    public　void drawLine(){
-        DP2.drawLine();
-    }
-
-    public　void drawCircle(){
-        DP2.drawCircle();
-    }
-}
-
-
-class DP1{
-    public　static　void draw_a_line(){
-        System.out.println("使用DP1的draw_a_line()画线");
-    }
-
-    public　static　void draw_a_circle(){
-        System.out.println("使用DP1的draw_a_circle()画圆");
-    }
-}
-
-
-class DP2{
-    public　static　void drawLine(){
-        System.out.println("使用DP2的drawLine()画线");
-    }
-
-    public　static　void drawCircle(){
-        System.out.println("使用DP2的drawCircle()画圆");
-    }
-}
-
-
-public　class BridgeClient {
-    public　static　void main(String[] args) {
-        Drawing draw1=new V1Drawing();
-        Drawing draw2=new V2Drawing();
-        Shape shape1=new Rectangle(draw1);
-        shape1.draw();
-        Shape shape2=new Circle(draw2);
-        shape2.draw();
-    }
-}
-
-</code></pre>
+<p><strong><code>注意</code></strong></p>
 <blockquote>
-<p style="text-indent:2em;">在这个例子中Shape对象实际上是一个Retangle或Circle对象，但Client并不知道到底是哪个。Drawing实际上是一个V1Drawing或V2Drawing，但Shape对象并不知道到底是哪个。DP1或DP2使用它的Drawing对象知道是哪一个。Shape是事物的抽象，Drawing是实现或者操作事物方法的抽象。他们两个都可以独立地变化。正如例子中所说那样，我们可以输出一个矩形可以使用V1Drawing也可以使用V2Drawing来完成，输出一个圆形也是一样都有两种方法。</p>
+<p style="text-indent:2em;">享元模式和对象池的最大不同在于：享元对象是不可相互替代的，它们各自都有各自的含义和用途；而对象池中的对象都是等价的，如数据库连接池中的数据库连接。在JDK中如Integer包装类的缓存以及String常量池都使用了享元模式。</p>
 </blockquote>
 
                 </section>
@@ -237,7 +128,7 @@ public　class BridgeClient {
 
             
                 <!-- 多说评论框 start -->
-<div class="block ds-thread" data-title="桥接模式" data-url="http://kbasha.com/WEB/index11.html"></div>
+<div class="block ds-thread" data-title="享元模式" data-url="http://kbasha.com/WEB/index13.html"></div>
 <!-- 多说评论框 end -->
             
 

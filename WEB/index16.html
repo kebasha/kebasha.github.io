@@ -1,6 +1,6 @@
 <html>
     <head>
-    <title>桥接模式</title>
+    <title>观察者模式</title>
     <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
@@ -90,13 +90,13 @@
             <section class="paging">
   
     <div class="left">
-      <a href="index10.html">
+      <a href="index15.html">
         ‹
       </a>
     </div>
   
     <div class="right">
-      <a href="index12.html">
+      <a href="index17.html">
         ›
       </a>
     </div>
@@ -107,129 +107,70 @@
 <div class="content">
     <section class='post'>
         <h1>
-            桥接模式
-            <div class='date'>2016-03-13 10:30:28</div>
+            观察者模式
+            <div class='date'>2016-03-13 21:09:01</div>
         </h1>
-        <p style="text-indent:2em;">桥接是用于把抽象化与实现化解耦，使得二者可以独立变化。对于两个独立变化的，使用桥接模式再适合不过了。当你用桥接模式的思想去分析一个系统或对象，然后用代码实现它之后拿给别人看，未必有人能说出你用了桥接模式。桥接模式是为了解决这个问题而来的：继承关系是一种紧密的依赖关系，以至于父类有任何改变将导致子类也发生变化，而且继承结构会随着新功能的增加而不断增加，类越来越多。桥接模式就是把继承关系变成合成/聚合关系。</p>
+        <p style="text-indent:2em;">在软件系统中，当一个对象的行为依赖于另一个对象的状态时，观察者模式就相当有用。若不使用观察者模式提供的能用结构，而需要实现其类似的功能，则只能在另一个线程中不停监听对象所依赖的状态。在一个复杂系统中，可能会因此开启很多线程来实现这一功能，这将使系统的性能产生额外的负担。观察者模式的意义也就在此，它可以在单线程中，使某一对象，及时得知自身所依赖的状态的变化。</p>
 <hr>
 
 <p><strong>优点：</strong></p>
 <ul>
-<li>1、抽象和实现的分享</li>
-<li>2、优秀的扩展能力</li>
-<li>3、实现细节对客户透明</li>
+<li>1、观察者和被观察者是抽象耦合的</li>
+<li>2、建立一套触发机制</li>
 </ul>
+
 <p><strong>缺点：</strong></p>
 <ul>
-<li>桥接模式的引入会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者针对抽象进行设计与编程。</li>
+<li>1、如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知会花费很多时间</li>
+<li>2、如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃</li>
+<li>3、观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化</li>
 </ul>
 
-<p><strong><code>外观模式</code></strong></p>
-<img src="index11_01.png"/>
+<p><strong>注意：</strong></p>
+<ul>
+<li>1、java中已经有了对观察者模式的支持类</li>
+<li>2、避免循环引用</li>
+<li>3、如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式</li>
+</ul>
+
 <pre><code class="java">
-abstract　class Shape{
-    protected Drawing myDrawing;
-    abstract　public　void draw();
-
-    Shape(Drawing drawing){
-        myDrawing=drawing;
-    }
-
-    protected　void drawLine(){
-        myDrawing.drawLine();
-    }
-
-    protected　void drawCircle(){
-        myDrawing.drawCircle();
-    }
+public interface ISubject{
+  void attach(IObserver observer);//添加观察者
+  void detach(IObserver observer);//删除观察者
+  void inform();        //通知所有观察者
 }
 
-class Rectangle extends Shape{
-    public Rectangle(Drawing darw){
-        super(darw);
-    }
-
-    public　void draw(){
-        drawLine();
-        drawLine();
-        drawLine();
-        drawLine();
-    }
+public interface IObserver{
+  void update(Event evt);//更新观察者
 }
 
-class Circle extends Shape{
-    public Circle(Drawing draw){
-        super(draw);
-    }
-
-    public void draw(){
-        myDrawing.drawCircle();
-    }
+public class ConcreateSubject implements ISubject{
+  Vector&lt;IObserver&gt; observers = new Vector&lt;IObserver&gt;();
+  public void attach(IObserver observer){
+    observers.addElement(observer);
+  }
+  public void detach(IObserver observer){
+    observers.removeElement(observer);
+  }
+  public void inform(){
+    Event evt = new Event();
+    for(IObserver ob:observers){
+      ob.update(evt);//注意，在这里通知观察者
+    }
+  }
 }
 
-
-abstract　class Drawing{
-    abstract　public　void drawLine();
-    abstract　public　void drawCircle();
-}
-
-class V1Drawing extends Drawing{
-    public　void drawLine(){
-        DP1.draw_a_line();
-    }
-
-    public　void drawCircle(){
-        DP1.draw_a_circle();
-    }
-}
-
-class V2Drawing extends Drawing{
-    public　void drawLine(){
-        DP2.drawLine();
-    }
-
-    public　void drawCircle(){
-        DP2.drawCircle();
-    }
-}
-
-
-class DP1{
-    public　static　void draw_a_line(){
-        System.out.println("使用DP1的draw_a_line()画线");
-    }
-
-    public　static　void draw_a_circle(){
-        System.out.println("使用DP1的draw_a_circle()画圆");
-    }
-}
-
-
-class DP2{
-    public　static　void drawLine(){
-        System.out.println("使用DP2的drawLine()画线");
-    }
-
-    public　static　void drawCircle(){
-        System.out.println("使用DP2的drawCircle()画圆");
-    }
-}
-
-
-public　class BridgeClient {
-    public　static　void main(String[] args) {
-        Drawing draw1=new V1Drawing();
-        Drawing draw2=new V2Drawing();
-        Shape shape1=new Rectangle(draw1);
-        shape1.draw();
-        Shape shape2=new Circle(draw2);
-        shape2.draw();
-    }
+public class ConcreateObserver implements IObserver{
+  public void update(Event evt){
+    System.out.println("observer receives information");
+  }
 }
 
 </code></pre>
+
+<p><strong><code>JDK Observer</code></strong></p>
 <blockquote>
-<p style="text-indent:2em;">在这个例子中Shape对象实际上是一个Retangle或Circle对象，但Client并不知道到底是哪个。Drawing实际上是一个V1Drawing或V2Drawing，但Shape对象并不知道到底是哪个。DP1或DP2使用它的Drawing对象知道是哪一个。Shape是事物的抽象，Drawing是实现或者操作事物方法的抽象。他们两个都可以独立地变化。正如例子中所说那样，我们可以输出一个矩形可以使用V1Drawing也可以使用V2Drawing来完成，输出一个圆形也是一样都有两种方法。</p>
+<p style="text-indent:2em;">观察者模式是如此常用，JDK内部就已经为开发人员准备了一套观察者模式的实现。它位于java.util包中，包括java.util.Observable类和java.util.Observer接口。使用方法：控制类继承Observable，通过在方法中调用：this.setChanged();this.notifyObservers(msg);观察者实现Observer接口就可以了。</p>
 </blockquote>
 
                 </section>
@@ -237,7 +178,7 @@ public　class BridgeClient {
 
             
                 <!-- 多说评论框 start -->
-<div class="block ds-thread" data-title="桥接模式" data-url="http://kbasha.com/WEB/index11.html"></div>
+<div class="block ds-thread" data-title="观察者模式" data-url="http://kbasha.com/WEB/index16.html"></div>
 <!-- 多说评论框 end -->
             
 
