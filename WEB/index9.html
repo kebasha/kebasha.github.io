@@ -1,0 +1,239 @@
+<html>
+    <head>
+    <title>代理模式</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index8.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index10.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            代理模式
+            <div class='date'>2016-03-13 09:59:55</div>
+        </h1>
+        <p style="text-indent:2em;">代理模式是一种很常见的设计模式。它使用代理对象完成用户请求，屏蔽用户对真实对象的访问。在软件设计中，使用代理模式的意图也很多，比如因为安全原因，需要屏蔽客户端直接访问真实对象；或者在远程调用中，需要使用代理类处理远程方法调用的技术细节(如RMI)；也可能是为了提升系统性能，对真实对象进行封装，从而达到延迟加载的目的。</p>
+<hr>
+
+
+<p><strong><code>数据库代理</code></strong></p>
+<pre><code class="java">
+public interface IDBQuery{
+  String request();
+}
+
+public class DBQuery implements IDBQuery{
+  public DBQuery(){
+    //数据库连接耗时操作
+  }
+  public String request(){
+    return "request string";
+  }
+}
+
+public class DBQueryProxy implements IDBQuery{
+  private DBQuery real = null;
+  public String request(){
+    if(real == null)
+      real = new DBQuery();
+    real.request();
+  }
+}
+
+public static void main(){
+  IDBQuery q = new DBQueryProxy();
+  q.request();
+}
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">数据连接这样一个重量级对象，就可以使用代理模式，在系统启动的时候使用一个代理对象来代替数据连接对象，当真正使用连接对象的时候再去创建连接对象。将代理模式用于实现延迟加载，可以有效地提升系统的启动速度，对改善用户体验有很大的帮助。</p>
+</blockquote>
+
+<p><strong><code>JDK动态代理</code></strong></p>
+<pre><code class="java">
+public class JdkDbQueryHandler implements InvocationHandler{
+  IDBQuery real = null;
+  public Object invoke(......){
+    if(real == null)
+      real = new DBQuery();
+    return real.request();
+  }
+}
+
+pubic static IDBQuery createJdkProxy(){
+  IDBQuery jdkProxy = ( IDBQuery)Proxy.newProxyInstance(
+    ClassLoader.getSystemClassLoader(),
+    new Class[]{IDBQuery.class},
+    new JdkDbQueryHandler());
+  return jdkProxy;
+}
+</code></pre>
+<blockquote>
+<p style="text-indent:2em;">动态代理使用字节码动态生成加载技术，在运行时生成并加载类。代理类的字节码将在运行时生成并载入当前的ClassLoader。动态代理的方法很多，如JDK自带的动态代理、CGLIB、Javassist或者ASM。</p>
+</blockquote>
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="代理模式" data-url="http://kbasha.com/WEB/index9.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
