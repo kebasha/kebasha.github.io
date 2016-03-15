@@ -1,0 +1,260 @@
+<html>
+    <head>
+    <title>责任链模式</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index16.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index18.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            责任链模式
+            <div class='date'>2016-03-15 22:53:46</div>
+        </h1>
+        <p style="text-indent:2em;">责任链模式为请求创建了一个接收者对象的链。这种模式给予请求的类型，对请求的发送者和接收者进行解耦。在这种模式中，通常每个接收者都包含对另一个接收者的引用。如果一个对象不能处理该请求，那么它会把相同的请求传给下一个接收者，依此类推。职责链上的处理者负责处理请求，客户只需要将请求发送到职责链上即可，无须关心请求的处理细节和请求的传递，所以职责链请求的发送者和请求的处理者解锁了。</p>
+<hr>
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>1、降低耦合度。它将请求的发闭发送者和接收者解耦</li>
+<li>2、简化了对象。使得对象不需要知道链的结构</li>
+<li>3、增加给对象指派职责的灵活性。通过改变链内的成员或者调动它们的次序，允许动态地新增或者删除任务</li>
+<li>4、增加新的请求处理类很方便</li>
+</ul>
+
+<p><strong>缺点：</strong></p>
+<ul>
+<li>1、不能保证请求一定被接收</li>
+<li>2、系统性能将受到一定影响，而且在进行代码调试时不太方便，可能会造成循环调用</li>
+<li>3、可能不容易观察运行时的特征，有碍于除错</li>
+</ul>
+
+<p><strong><code>责任链模式</code></strong></p>
+<pre><code class="java">
+public abstract class Handler {
+    /**
+     * 持有后继的责任对象
+     */
+    protected Handler successor;
+    /**
+     * 示意处理请求的方法，虽然这个示意方法是没有传入参数的
+     * 但实际是可以传入参数的，根据具体需要来选择是否传递参数
+     */
+    public abstract void handleRequest();
+    /**
+     * 取值方法
+     */
+    public Handler getSuccessor() {
+        return successor;
+    }
+    /**
+     * 赋值方法，设置后继的责任对象
+     */
+    public void setSuccessor(Handler successor) {
+        this.successor = successor;
+    }
+}
+
+public class ConcreteHandler extends Handler {
+    /**
+     * 处理方法，调用此方法处理请求
+     */
+    @Override
+    public void handleRequest() {
+        /**
+         * 判断是否有后继的责任对象
+         * 如果有，就转发请求给后继的责任对象
+         * 如果没有，则处理请求
+         */
+        if(getSuccessor() != null)
+        {            
+            System.out.println("放过请求");
+            getSuccessor().handleRequest();            
+        }else
+        {            
+            System.out.println("处理请求");
+        }
+    }
+}
+
+public class Client {
+
+    public static void main(String[] args) {
+        //组装责任链
+        Handler handler1 = new ConcreteHandler();
+        Handler handler2 = new ConcreteHandler();
+        handler1.setSuccessor(handler2);
+        //提交请求
+        handler1.handleRequest();
+    }
+
+}
+
+</code></pre>
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="责任链模式" data-url="http://kbasha.com/WEB/index17.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
