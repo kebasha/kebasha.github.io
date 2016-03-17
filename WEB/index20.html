@@ -1,0 +1,198 @@
+<html>
+    <head>
+    <title>c3p0 sql warning</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index19.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index21.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            c3p0 Sql Warning
+            <div class='date'>2016-03-17 20:32:01</div>
+        </h1>
+      
+<hr>
+<blockquote>
+[2016-01-14 18:29:26,037] [INFO ] com.mchange.v2.c3p0.SQLWarnings 
+--Warning: execution completed with warning--
+java.sql.SQLWarning: Warning: execution completed with warning
+
+<p style="text-indent:2em;">最近程序出现了这个警告，百度、google搜索了半天也找不到真正原因。最后还是让自己给找出来了，当出现这种情况的时候，百分百是因为SQL语句写法不正规导致的，但是你把SQL语句放到数据库执行却可以正常通过，很奇怪......</p>
+</blockquote>
+
+<pre><code class="sql">
+SUM(DECODE(DC_FLAG,'0',TRANS_FEE,-TRANS_FEE))
+</code></pre>
+<p style="text-indent:2em;">比如在Oracle中，这样一个表达式，看上去是没有一点问题，而且一般我们执行也确实没有问题。出现上面这样的警告是因为trans_fee这样的字段是数字类型的，按照正常情况，这个数字类型的字段是肯定要有值的，但有些情况，表上没有约束或其他原因导致这个字段里的值为null。但就算这个值为null，我们也可以得到正确的结果，SQL语句也不会报错，但是放到使用c3p0的java程序中执行就会出现上面的警告，这是因为在做这种统计数学计算的时候，用null来计算是不对的，虽然结果是正确的。我们应该这样来写,写程序一定要细心：</p>
+<pre><code class="sql">
+SUM(DECODE(DC_FLAG,'0',NVL(TRANS_FEE,0),-NVL(TRANS_FEE,0))
+</code></pre>
+
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="c3p0 Sql Warning" data-url="http://kbasha.com/WEB/index20.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
