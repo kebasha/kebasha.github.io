@@ -1,0 +1,428 @@
+<html>
+    <head>
+    <title>Hadoop1.x集群安装</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index2.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index3.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+            <div class="content">
+                <section class='post'>
+                    <h1>
+                        Hadoop1.x集群安装
+                        <div class='date'>2016-03-19 00:30:37</div>
+                    </h1>
+<hr>
+<p><strong><code>Hadoop搭建环境</code></strong></p>
+<ul>
+    <li>主机系统：win 10 64位，CPU：i7；内存：8G</li>
+    <li>虚拟软件：VMware</li>
+    <li>虚拟机系统：全系标配CentOS6.5 64位；单核；1G内存;(全都使用局域网内独立IP：101、102、103)</li>
+    <li>JDK：1.7.0_55 64</li>
+    <li>Hadoop: 1.2.1</li>
+</ul>
+
+<hr>
+<p><strong><code>设置机器名</code></strong></p>
+<p>修改/etc/sysconfig/network(重启后生效)</p>
+<pre><code class="bash">
+[root@hadoop1 /]# vi /etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=hadoop1
+</code></pre>
+<hr>
+<p><strong><code>设置hosts文件</code></strong></p>
+<p>修改/etc/hosts映射文件(注意：需要重启network; service network restart)</p>
+<pre><code class="bash">
+[root@hadoop1 /]# vi /etc/hosts
+192.168.3.101 hadoop1
+192.168.3.102 hadoop2
+192.168.3.103 hadoop3
+</code></pre>
+<hr>
+<p><strong><code>关闭防火墙</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# service iptables stop
+[root@hadoop1 /]# chkconfig iptables off
+</code></pre>
+<hr>
+<p><strong><code>关闭SElinux</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# vi /etc/selinux/config
+SELINUX=disable
+</code></pre>
+<hr>
+
+<p><strong><code>安装JDK</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# mkdir -p /usr/lib/java
+[root@hadoop1 /]# chmod -R 777 /usr/lib/java
+[root@hadoop1 /]# tar -zxvf jdk-7u55-linux-x64.tar.gz
+[root@hadoop1 /]# vi /etc/profile
+export JAVA_HOME=/usr/lib/java/jdk1.7.0_55
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+</code></pre>
+<hr>
+
+<p><strong><code>更新OpenSSL(自带的OpenSSL可能存在bug)</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# yum update openssl
+</code></pre>
+<hr>
+
+<p><strong><code>SSH免密码配置</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# vi /etc/ssh/sshd_config
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+[root@hadoop1 /]# service sshd restart
+</code></pre>
+<hr>
+
+<p><strong><code>在另外两台机器上做以上同样的操作</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# ......
+</code></pre>
+<hr>
+
+<p><strong><code>生成私钥和公钥(注意切换用户)</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# su - hadoop
+[hadoop@hadoop1 ~]$ cd .ssh
+[hadoop@hadoop1 .ssh]$ ssh-keygen -t rsa
+#然后一路回车，直到完成
+[hadoop@hadoop1 .ssh]$ ls
+id_rsa  id_rsa.pub
+[hadoop@hadoop1 .ssh]$ cd /home/hadoop/.ssh
+#把三个结点的公钥重命名
+[hadoop@hadoop1 .ssh]$ cp id_rsa.pub key_hadoop1 
+[hadoop@hadoop2 .ssh]$ cp id_rsa.pub key_hadoop2
+[hadoop@hadoop3 .ssh]$ cp id_rsa.pub key_hadoop3
+</code></pre>
+<hr>
+
+<p><strong><code>传输公钥(注意用户以及机器)</code></strong></p>
+<pre><code class="bash">
+[hadoop@hadoop2 .ssh]$ scp key_hadoop2 hadoop@hadoop1:/home/hadoop/.ssh
+[hadoop@hadoop3 .ssh]$ scp key_hadoop3 hadoop@hadoop1:/home/hadoop/.ssh
+[hadoop@hadoop1 .ssh]$ ls
+id_rsa  id_rsa.pub key_hadoop1 key_hadoop2 key_hadoop3
+[hadoop@hadoop1 .ssh]$ cat key_hadoop1 >> hadoop_keys
+[hadoop@hadoop1 .ssh]$ cat key_hadoop2 >> hadoop_keys
+[hadoop@hadoop1 .ssh]$ cat key_hadoop3 >> hadoop_keys
+[hadoop@hadoop1 .ssh]$ scp hadoop_keys hadoop@hadoop2:/home/hadoop/.ssh
+[hadoop@hadoop1 .ssh]$ scp hadoop_keys hadoop@hadoop3:/home/hadoop/.ssh
+
+[hadoop@hadoop1 .ssh]$ chmod 400 hadoop_keys
+[hadoop@hadoop2 .ssh]$ chmod 400 hadoop_keys
+[hadoop@hadoop3 .ssh]$ chmod 400 hadoop_keys
+
+[hadoop@hadoop1 .ssh]$ ssh hadoop1
+Last login: Fri Mar 18 08:58:49 2016 from hadoop1
+[hadoop@hadoop1 .ssh]$ exit
+logout
+Connection to hadoop1 closed.
+</code></pre>
+<hr>
+
+<p><strong><code>Hadoop基本配置</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 /]# cd /usr/local
+[root@hadoop1 local]# tar -zxvf hadoop-1.2.1-bin.tar.gz
+[root@hadoop1 local]# chown -R hadoop /usr/loca/hadoop-1.2.1
+[root@hadoop1 local]# cd hadoop-1.2.1
+[root@hadoop1 local]# mkdir tmp
+[root@hadoop1 local]# mkdir -p hdfs/name
+[root@hadoop1 local]# mkdir -p hdfs/data
+</code></pre>
+<hr>
+
+<p><strong><code>配置hadoop-env.sh</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 local]# cd conf
+[root@hadoop1 conf]# vi hadoop-env.sh
+export JAVA_HOME=/usr/lib/java/jdk1.7.0_55
+export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
+
+[root@hadoop1 conf]# source hadoop-env.sh
+</code></pre>
+<hr>
+
+<p><strong><code>配置core-site.xml</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 conf]# vi core-site.xml
+&lt;?xml version="1.0"?&gt;
+&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
+
+&lt;configuration&gt;
+    &lt;property&gt;
+         &lt;name&gt;fs.default.name&lt;/name&gt;
+         &lt;value&gt;hdfs://hadoop1:9000&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+         &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+         &lt;value&gt;/usr/local/hadoop-1.2.1/tmp&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<hr>
+
+<p><strong><code>hdfs-site.xml</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 conf]# vi hdfs-site.xml
+&lt;?xml version="1.0"?&gt;
+&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
+
+&lt;configuration&gt;
+  &lt;property&gt;
+      &lt;name&gt;dfs.replication&lt;/name&gt;
+      &lt;value&gt;2&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;dfs.name.dir&lt;/name&gt;
+      &lt;value&gt;/usr/local/hadoop-1.2.1/hdfs/name&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;dfs.data.dir&lt;/name&gt;
+      &lt;value&gt;/usr/local/hadoop-1.2.1/hdfs/data&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<hr>
+
+<p><strong><code>mapred-site.xml</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 conf]# vi mapred-site.xml
+&lt;?xml version="1.0"?&gt;
+&lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
+
+&lt;configuration&gt;
+    &lt;property&gt;
+         &lt;name>mapred.job.tracker&lt;/name&gt;
+         &lt;value>hadoop1:9001&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre>
+<hr>
+
+<p><strong><code>配置masters和slaves文件</code></strong></p>
+<pre><code class="bash">
+[root@hadoop1 conf]# vi masters
+hadoop1
+[root@hadoop1 conf]# vi slaves
+hadoop2
+hadoop3
+</code></pre>
+<hr>
+
+<p><strong><code>复制hadoop到其他节点</code></strong></p>
+<pre><code class="bash">
+[root@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[root@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+
+[root@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[root@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+
+[root@hadoop1 conf]# cd ..
+[root@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop2:/usr/local/hadoop-1.2.1
+[root@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop3:/usr/local/hadoop-1.2.1
+</code></pre>
+<hr>
+
+<p><strong><code>格式化namenode</code></strong></p>
+<pre><code class="bash">
+[root@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[root@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+
+[root@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[root@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+
+[root@hadoop1 bin]# ./hadoop namenode -format
+[root@hadoop1 bin]# ./start-all.sh
+
+[hadoop@hadoop1 bin]$ jps
+9364 SecondaryNameNode
+15398 Jps
+9190 NameNode
+9449 JobTracker
+
+[hadoop@hadoop2 ~]$ jps
+6642 DataNode
+11369 Jps
+6745 TaskTracker
+
+[hadoop@hadoop3 ~]$ jps
+6614 TaskTracker
+11181 Jps
+6511 DataNode
+</code></pre>
+<hr>
+
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="Hadoop1.x集群安装" data-url="http://kbasha.com/大数据/index3.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
