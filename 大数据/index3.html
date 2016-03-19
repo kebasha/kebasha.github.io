@@ -207,15 +207,15 @@ id_rsa  id_rsa.pub
 [hadoop@hadoop3 .ssh]$ scp key_hadoop3 hadoop@hadoop1:/home/hadoop/.ssh
 [hadoop@hadoop1 .ssh]$ ls
 id_rsa  id_rsa.pub key_hadoop1 key_hadoop2 key_hadoop3
-[hadoop@hadoop1 .ssh]$ cat key_hadoop1 >> hadoop_keys
-[hadoop@hadoop1 .ssh]$ cat key_hadoop2 >> hadoop_keys
-[hadoop@hadoop1 .ssh]$ cat key_hadoop3 >> hadoop_keys
-[hadoop@hadoop1 .ssh]$ scp hadoop_keys hadoop@hadoop2:/home/hadoop/.ssh
-[hadoop@hadoop1 .ssh]$ scp hadoop_keys hadoop@hadoop3:/home/hadoop/.ssh
+[hadoop@hadoop1 .ssh]$ cat key_hadoop1 >> authorized_keys
+[hadoop@hadoop1 .ssh]$ cat key_hadoop2 >> authorized_keys
+[hadoop@hadoop1 .ssh]$ cat key_hadoop3 >> authorized_keys
+[hadoop@hadoop1 .ssh]$ scp authorized_keys hadoop@hadoop2:/home/hadoop/.ssh
+[hadoop@hadoop1 .ssh]$ scp authorized_keys hadoop@hadoop3:/home/hadoop/.ssh
 
-[hadoop@hadoop1 .ssh]$ chmod 400 hadoop_keys
-[hadoop@hadoop2 .ssh]$ chmod 400 hadoop_keys
-[hadoop@hadoop3 .ssh]$ chmod 400 hadoop_keys
+[hadoop@hadoop1 .ssh]$ chmod 400 authorized_keys
+[hadoop@hadoop2 .ssh]$ chmod 400 authorized_keys
+[hadoop@hadoop3 .ssh]$ chmod 400 authorized_keys
 
 [hadoop@hadoop1 .ssh]$ ssh hadoop1
 Last login: Fri Mar 18 08:58:49 2016 from hadoop1
@@ -227,20 +227,20 @@ Connection to hadoop1 closed.
 
 <p><strong><code>Hadoop基本配置</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 /]# cd /usr/local
-[root@hadoop1 local]# tar -zxvf hadoop-1.2.1-bin.tar.gz
-[root@hadoop1 local]# chown -R hadoop /usr/loca/hadoop-1.2.1
-[root@hadoop1 local]# cd hadoop-1.2.1
-[root@hadoop1 local]# mkdir tmp
-[root@hadoop1 local]# mkdir -p hdfs/name
-[root@hadoop1 local]# mkdir -p hdfs/data
+[hadoop@hadoop1 /]# cd /usr/local
+[hadoop@hadoop1 local]# tar -zxvf hadoop-1.2.1-bin.tar.gz
+[hadoop@hadoop1 local]# chown -R hadoop /usr/loca/hadoop-1.2.1
+[hadoop@hadoop1 local]# cd hadoop-1.2.1
+[hadoop@hadoop1 local]# mkdir tmp
+[hadoop@hadoop1 local]# mkdir -p hdfs/name
+[hadoop@hadoop1 local]# mkdir -p hdfs/data
 </code></pre>
 <hr>
 
 <p><strong><code>配置hadoop-env.sh</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 local]# cd conf
-[root@hadoop1 conf]# vi hadoop-env.sh
+[hadoop@hadoop1 local]# cd conf
+[hadoop@hadoop1 conf]# vi hadoop-env.sh
 export JAVA_HOME=/usr/lib/java/jdk1.7.0_55
 export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
 
@@ -250,7 +250,7 @@ export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
 
 <p><strong><code>配置core-site.xml</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 conf]# vi core-site.xml
+[hadoop@hadoop1 conf]# vi core-site.xml
 &lt;?xml version="1.0"?&gt;
 &lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
 
@@ -269,7 +269,7 @@ export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
 
 <p><strong><code>hdfs-site.xml</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 conf]# vi hdfs-site.xml
+[hadoop@hadoop1 conf]# vi hdfs-site.xml
 &lt;?xml version="1.0"?&gt;
 &lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
 
@@ -292,14 +292,14 @@ export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
 
 <p><strong><code>mapred-site.xml</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 conf]# vi mapred-site.xml
+[hadoop@hadoop1 conf]# vi mapred-site.xml
 &lt;?xml version="1.0"?&gt;
 &lt;?xml-stylesheet type="text/xsl" href="configuration.xsl"?&gt;
 
 &lt;configuration&gt;
     &lt;property&gt;
-         &lt;name>mapred.job.tracker&lt;/name&gt;
-         &lt;value>hadoop1:9001&lt;/value&gt;
+         &lt;name&gt;mapred.job.tracker&lt;/name&gt;
+         &lt;value&gt;hadoop1:9001&lt;/value&gt;
     &lt;/property&gt;
 &lt;/configuration&gt;
 </code></pre>
@@ -307,9 +307,9 @@ export PATH=$PATH:/usr/local/hadoop-1.2.1/bin
 
 <p><strong><code>配置masters和slaves文件</code></strong></p>
 <pre><code class="bash">
-[root@hadoop1 conf]# vi masters
+[hadoop@hadoop1 conf]# vi masters
 hadoop1
-[root@hadoop1 conf]# vi slaves
+[hadoop@hadoop1 conf]# vi slaves
 hadoop2
 hadoop3
 </code></pre>
@@ -317,28 +317,28 @@ hadoop3
 
 <p><strong><code>复制hadoop到其他节点</code></strong></p>
 <pre><code class="bash">
-[root@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
-[root@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+[hadoop@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[hadoop@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
 
-[root@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
-[root@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+[hadoop@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[hadoop@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
 
-[root@hadoop1 conf]# cd ..
-[root@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop2:/usr/local/hadoop-1.2.1
-[root@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop3:/usr/local/hadoop-1.2.1
+[hadoop@hadoop1 conf]# cd ..
+[hadoop@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop2:/usr/local/hadoop-1.2.1
+[hadoop@hadoop1 hadoop-1.2.1]# scp -r * hadoop@hadoop3:/usr/local/hadoop-1.2.1
 </code></pre>
 <hr>
 
 <p><strong><code>格式化namenode</code></strong></p>
 <pre><code class="bash">
-[root@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
-[root@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+[hadoop@hadoop2 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[hadoop@hadoop2 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
 
-[root@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
-[root@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
+[hadoop@hadoop3 conf]# mkdir -p /usr/loca/hadoop-1.2.1
+[hadoop@hadoop3 conf]# chown -R hadoop /usr/local/hadoop-1.2.1
 
-[root@hadoop1 bin]# ./hadoop namenode -format
-[root@hadoop1 bin]# ./start-all.sh
+[hadoop@hadoop1 bin]# ./hadoop namenode -format
+[hadoop@hadoop1 bin]# ./start-all.sh
 
 [hadoop@hadoop1 bin]$ jps
 9364 SecondaryNameNode
