@@ -1,0 +1,240 @@
+<html>
+    <head>
+    <title>Java优化组件和方法</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/fav.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index20.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index22.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+<div class="content">
+    <section class='post'>
+        <h1>
+            Java优化组件和方法
+            <div class='date'>2016-03-20 23:15:02</div>
+        </h1>
+      
+<hr>
+<p><STRONG><code>缓冲(Buffer)</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">缓冲区是一块特定的内存区域。开辟缓冲区的目的是通过缓解应用程序上下层之间的性能差异，提高系统的性能。在日常生活中，缓冲的一个典型应用是漏斗。漏斗的初始口径很大，并且拥有一定的容量，因此，茶壶中的水可以先倒入漏斗中，就有如内存数据先写入一块缓冲区。只要漏斗的容量够大，茶壶里的水很快就能倒完。至此，上层系统完成工作，可以去处理其他业务逻辑。而此时，水并未完全进入瓶中，而吕部分被积累在漏斗中。这就可以由下层系统慢慢处理，直到水完全进入瓶中，漏斗(缓冲区)被清空。</p>
+<p style="text-indent:2em;">注意：缓冲可以协调上层组件和下层组件的性能差。当上层组件性能优于下层组件时，可以有效减少上层组件对下层组件的等待时间。</p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>缓存(Cache)</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">缓存（Cache）也是一块为提升系统性能而开辟的内存空间。缓存的主要作用是暂存数据处理结果，并提供下次访问使用。在很多场合，数据的处理或者数据获取可能会非常费时，当对这个数据的请求量很大时，频繁的数据处理会耗尽CPU资源。缓存的作用就是将这些来之不易的数据处理结果暂存起来，当有其他线程或者客户端需要查询相同的数据资源时，可以省略对这些数据的处理流程，而直接从缓存中获取处理结果，并立即返回给请求组件，以此提高系统的响应时间。</p>
+<p style="text-indent:2em;">缓存的使用非常普遍，比如，目前流行的几种浏览器都会在本地缓存远程的页面，从而减少远程HTTP访问次数，加快网页的加载速度。又比如，在服务端的系统开发中，设计人员可以为一些核心API加上缓存，从而提高系统的整体性能。</p>
+<p style="text-indent:2em;">最为简单的缓存可以直接使用HashMap实现。当然，这样做会遇到很多问题，比如，何时应该清理无效的数据；如何防止缓存数据过多而导致内存溢出等。</p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>对象利用--”池“</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">对象池化，是目前非常常用的一种系统优化技术。它的核心思想是，如果一个类被频繁请求使用，那么不必每次都生成一个实例，可以将这个类的一些实例保存在一个”池“中，待需要使用的时候直接从池中获取。这个”池“就称为对象池。在实现细节上，它可能是一个数组，一个链表或者任何集合类。</p>
+<p style="text-indent:2em;">对象池的使用非常广泛，其中最为大家所熟悉的，就是线程池和数据库连接池。线程池中，保存着可以被重用的线程对象，当有任务被提交到线程池时，系统并不需要新建线程，而是从池中获得一个可用的线程，执行这个任务。在任务结束后，也不关闭线程，而将它返回到池中，以便下次继续使用。由于线程的创建和销毁是较为费时的工作，因此，在线程调度频繁的系统中，线程池可以很好地改善性能。</p>
+<p style="text-indent:2em;">在程序中使用数据库连接池和线程池，可以有效地改善系统在高并发下的性能。这是两个非常重要的性能组件。任何对性能敏感的系统，都需要考虑合理配置这两个组件。目前应用较为广泛的数据库连接池组件有C3P0和Proxool。</p>
+<p style="text-indent:2em;"></p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>并行替代串行</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">随着多核时代的到来，CPU的并行能力有了很大的提升。在这种背景下，传统的串行程序已经无法发挥CPU的最大潜能，造成系统资源的浪费。而并行软件开发技术恰好可以在这方面将CPU性能发挥到极致。</p>
+<p style="text-indent:2em;">Java对多线程的支持为多核计算提供了强有力的保障。首先，Java中提供了Thread对象和Runnable接口用于创建进程内的线程。其次，为了优化并行程序性能，JDK还提供了java.util.concurrent并发包，内置各种多线程性能优化工具和组件，如线程池、各种并发数据结构等。除此之外，为确保多线程间能相互协作，JDK还提供了各种同步工具。</p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>负载均衡</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">对大型应用来说，系统负载可能非常生。以网站应用为例，如果并发数很多，则单台机器就无法承受，此时，为保证应用程序的服务质量，需要使用多台机器协同工作，将系统负载尽可能均匀分配到各个计算机节点上。</p>
+<p style="text-indent:2em;">一个典型的实现便是Tomcat集群。配置Tomcat集群实现负载均衡，可能通过Apache、Ngnix来实现。即，使用Apache、Ngnix作为负载分配器，将请求转向各个Tomcat服务器，从而实现负载均衡。</p>
+<p style="text-indent:2em;">在使用Tomcat集群时，有两种基本的Session共享模式。黏性Session模式和复制Session模式。在黏性Session模式下，所有的Session信息被平均分配到各个节点上，以实现负载均衡，但是一旦一个节点宕机，它所维护的Session信息将丢失，不具备高可用性，且同一用户只能与一个节点交互。而使用复制Session模式，将使得所有Session在所有节点上保持一致。当一个节点上的Session信息被修改，这个Session会被广播到其他节点上，以保持Session同步。这样，当用户的下一次请求被分配到其他节点上时，将拥有足够信息处理用户请求。这样做的坏处是，很容易引起网络繁忙，影响系统效率。</p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>时间换空间</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">由于系统资源有的限的，为了在有限的资源内，达成某些特定的性能目标，就需要使用时间换空间或者空间换时间的方法。</p>
+<p style="text-indent:2em;">下例是一个非常简单的时间换空间的算法，实现了a、b两个变量的值交换。交换两个变量最常用的方法是使用一个中间变量，而引入额外的变量意味着要使用更多的空间。采用下面的方法，则可以免去中间变量，而达到变量交换的目的，其代价则是引入了更多的CPU运算。
+</p>
+a=a+b;<br>
+b=a-b;<br>
+a=a-b;
+<p style="text-indent:2em;">性能优化的关键在于掌握各部分组件的性能平衡点。如果系统CPU资源有空闲，但是内存使用紧张，便可以考虑使用时间换空间的策略，达到整体性能的改良。反之，CPU资源紧张，内存资源有空闲，则可以使用空间换时间的策略，提升整体性能。</p>
+</blockquote>
+
+<hr>
+<p><STRONG><code>空间换时间</code></STRONG>
+<blockquote>
+<p style="text-indent:2em;">缓冲区是一块特定的内存区域。开辟缓冲区的目的是通过缓解应用程序上下层之间的性能差异，提高系统的性能。</p>
+<p style="text-indent:2em;">缓冲可以协调上层组件和下层组件的性能差。当上层组件性能优于下层组件时，可以有效减少上层组件对下层组件的等待时间。基于这样的结构，上层应用组件不需要等待下层组件真实地接受全部数据，即可返回操作，加快了上层组件的处理速度，从而提升系统整体性能。缓冲最常用的场景就是提高I/O的速度。为此，JDK内不少I/O组件都提供了缓冲功能。
+</p>
+</blockquote>
+
+
+                </section>
+            </div>
+
+            
+                <!-- 多说评论框 start -->
+<div class="block ds-thread" data-title="Java优化组件和方法" data-url="http://kbasha.com/WEB/index21.html"></div>
+<!-- 多说评论框 end -->
+            
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
