@@ -1,0 +1,206 @@
+<html>
+    <head>
+    <title>oracle的rollup函数</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/kbasha.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index8.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index10.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+            <div class="content">
+                <section class='post'>
+                    <h1>
+                        oracle的rollup函数
+                        <div class='date'>2016-04-07 23:22:00</div>
+                    </h1>
+
+<p><strong><code>rowid</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">rollup是group by子句的一种扩展，可以为每个分组返回小计记录以及为所有分组返回总计记录。搞懂group by后带rollup子句的用法主要是明白它是如何按一定规则产生多种分组的。</p>
+</blockquote>
+
+<p><strong><code>group by rollup(A,B)</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">产生的分组种数：3种。<br>
+1、group by A,B<br>
+2、group by A<br>
+3、group by null<br>
+本来是没有group by null的写法，这里只是为了说明：没有分组，也就是对所有数据做一个统计。例如使用sum的话，那就是对所有满足条件的数据进行求和。
+</p>
+</blockquote>
+
+<p><strong><code>group by rollup(A,(B,C)</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">产生的分组种数：3种。<br>
+1、group by A,B,C<br>
+2、group by A<br>
+3、group by null<br>
+</p>
+</blockquote>
+
+<blockquote>
+<p style="text-indent:2em;">group by rollup其实就是对需要分组的字段进行分组后，然后在每一组的后面进行一个统计计算，同时在所有组的后面进行一个汇总计算。可能这样表达的并不是很好理解，自己尝试着写一下，从得到的结果中便会一目了然。该函数经常用于报表统计。</p>
+</blockquote>
+
+
+                </section>
+            </div>
+
+            
+
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
