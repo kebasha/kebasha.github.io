@@ -1,0 +1,191 @@
+<html>
+    <head>
+    <title>char varchar varchar2</title>
+    <meta content='width=device-width, initial-scale=1.0, user-scalable=no' name='viewport'>
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+<link href='/styles/github.css' rel='stylesheet' type='text/css' />
+<script src='/javascripts/highlight.pack.js' type='text/javascript'></script>
+
+<link href='/images/kbasha.png' rel='shortcut icon'>
+<link href='/stylesheets/style.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/syntax.css' rel='stylesheet' type='text/css' />
+<link href='/stylesheets/responsive.css' rel='stylesheet' type='text/css' />
+<link href="/stylesheets/nprogress.css" rel='stylesheet' type='text/css' />
+<link href="/stylesheets/duoshuo.css" rel='stylesheet' type='text/css' />
+
+<link href="/feed.xml" rel="alternate" type="application/rss+xml">
+
+<script src='/javascripts/jquery.js' type='text/javascript'></script>
+<script src='/javascripts/jquery.particleground.min.js' type='text/javascript'></script>
+<script src='/javascripts/nprogress.js' type='text/javascript'></script>
+<script src='/javascripts/theater.js' type='text/javascript'></script>
+
+<script src='/javascripts/app.js' type='text/javascript'></script>
+<script>
+    hljs.initHighlightingOnLoad();
+    var duoshuoQuery = {short_name:"kbasha"};
+
+</script>
+
+    </head>
+    <body>
+
+        <header>
+
+<div id="blog-desc">
+    If you want do, then do.
+</div>
+
+</header>
+
+<div id="main">
+    <div id="left">
+    <a id="head-pic" class="go-back-home" href="/"><img src="../images/kbasha.jpg" alt="Home" width="100" height="100"></a>
+    <p>克巴沙</p>
+        <ul id="titles" class="titles">
+            
+        </ul>
+    </div>
+
+    <div id="right">
+    <a id="scaner-pic" class="go-back-home" href="/"><img src="../images/kbasha_id.jpg" alt="Home" width="172" height="172"></a>
+    <p>关注公众号</p>
+        
+    </div>
+
+        <div id='container'>
+            
+            <div class="block nav">
+    <ul>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/about.html">About</a>
+        </li>
+    
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_top" href="/">Blog</a>
+        </li>
+        <li>
+            <span class="line line-top"></span>
+            <span class="line line-right"></span>
+            <span class="line line-bottom"></span>
+            <span class="line line-left"></span>
+            <a target="_blank" href="https://github.com/kebasha">GitHub</a>
+        </li>
+        
+    </ul>
+
+</div>
+
+
+            <section class="paging">
+  
+    <div class="left">
+      <a href="index10.html">
+        ‹
+      </a>
+    </div>
+  
+    <div class="right">
+      <a href="index12.html">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+
+            <div class="content">
+                <section class='post'>
+                    <h1>
+                        char varchar varchar2
+                        <div class='date'>2016-04-11 21:48:07</div>
+                    </h1>
+
+<p><strong><code>区别</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">char的长度是固定的，而varchar2的长度是可以变化的，比如存储字符串"abc"，对于char(20)，表示存储的字符将占20个字节(包括17个空字符)；而同样的varchar2(20)则只占用3个字节的长度，20只是最大值，当存储的字符小于20时，按实际长度存储。</p>
+<p style="text-indent:2em;">在oracle中varchar是varchar2的同义词，oracle自己开发的一个数据类型varchar2，这个类型不是一个标准的varchar，它将在数据库中varchar列可以存储空字符吕的特性改为存储null值。oracle建议使用varchar2而不是是varchar。</p>
+</blockquote>
+
+<p><strong><code>使用</code></strong></p>
+<blockquote>
+<p style="text-indent:2em;">比如某个字段存储身份证号码或手机号码，由于这两种类型的数据是固定长度的，所以应该选用char类型进行存储。之所以选用char是因为我们知道长度，同时在char字段上做字符串比较的时候，数据库是直接拿整个char字符串与其他字符串进行比较，这与varchar不同，varchar是一个字符的进行比较，如果比较到某一个字符不一样则结果就不一样，char是整个比较，一样就一样，不一样就不一样。在这种情况下显然char就比varchar效率要高一些。总之，当我们知道某个字段的长度基本是固定的就应该选用char类型。</p>
+<p style="text-indent:2em;">当某个字段长度不确定时，比如一些描述性字符串，可以长也可以短，这时候就应该使用varchar类型，因为char类型在没有达到指定长度时会用空字符串进行补全，这样就浪费了空间。</p>
+</blockquote>
+
+
+
+                </section>
+            </div>
+
+            
+
+
+        </div>
+</div>
+        <script>
+
+            jQuery(document).ready(function($) {
+
+                App.mapKeySupport();
+
+                App.initNProgress();
+
+                App.initDuoshuo();
+
+                App.initTheater();
+            });
+
+        </script>
+
+    </body>
+
+    <div id="particles">
+    <canvas class="pg-canvas"></canvas>
+</div>
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93757bc26a1b57b9c6a7771db256d254";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+
+    $(function(){
+
+        var $body = $("body");
+
+        $("#particles").css({
+                "width":$body.width(), 
+                "height":$body.height()
+            }).particleground({
+                lineColor: '#e0e0e0',
+                dotColor: '#EFEFEF',
+                lineColor: '#EFEFEF',   
+                minSpeedX :0.5,
+                maxSpeedX :1,
+                minSpeedY : 0.5,
+                maxSpeedY :1
+            });
+    });
+</script>
+<footer>
+  <span class="muted">© kbasha. All Rights Reserved.</span>
+  <br>
+  <br>
+  <!--img src="/images/scribble2.png" alt="scribble" /-->
+</footer>
+
+
+</html>
